@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "s3",
+    "s3-custom-endpoint",
+    "s3-sdk-credentials"
+]
