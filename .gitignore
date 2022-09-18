@@ -10,3 +10,8 @@ Cargo.lock
 **/*.rs.bk
 
 .idea
+
+# Hugo
+resources/_gen
+public/
+.hugo_build.lock

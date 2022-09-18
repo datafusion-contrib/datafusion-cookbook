@@ -1,7 +1,7 @@
 [workspace]
 members = [
-    "s3",
-    "s3-custom-endpoint",
-    "s3-globbing",
-    "s3-sdk-credentials"
+    "content/recipes/s3",
+    "content/recipes/s3-custom-endpoint",
+    "content/recipes/s3-globbing",
+    "content/recipes/s3-sdk-credentials"
 ]

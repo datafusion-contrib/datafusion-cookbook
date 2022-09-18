@@ -1,1 +1,0 @@
-# Acquire credentials with the AWS-RUST-SDK and query a file on S3

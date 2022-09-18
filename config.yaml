@@ -1,0 +1,30 @@
+title: 'Datafusion Cookbook'
+baseURL: 'https://datafusion-contrib.github.io/datafusion-cookbook/'
+languageCode: 'en-us'
+theme: hugo-book
+
+# Book configuration
+disablePathToLower: true
+enableGitInfo: true
+
+# Needed for mermaid/katex shortcodes
+markup:
+    goldmark:
+        renderer:
+            unsafe: true
+    tableOfContents:
+        startLevel: 1
+
+outputs:
+    home:
+    - HTML
+    - RSS
+
+outputFormats:
+    RSS:
+        mediatype: "application/rss"
+        baseName: "feed"
+
+markup:
+    highlight:
+        style: github

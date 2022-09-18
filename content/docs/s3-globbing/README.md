@@ -1,3 +1,9 @@
+---
+weight: 1
+bookFlatSection: true
+title: "Query multiple files on S3 with a globbing pattern"
+---
+
 # Query multiple files on S3 with a globbing pattern
 
 The current ListingTableUrl implementation has some limitations:
