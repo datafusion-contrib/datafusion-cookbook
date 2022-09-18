@@ -104,23 +104,16 @@ fn extract_object_store_url_and_path(globbing_path: &str) -> (ObjectStoreUrl, St
 #[test]
 fn test_extract_object_store_url_and_path() {
     let actual = extract_object_store_url_and_path("s3://bucket");
+    assert_eq!(("s3://bucket/", ""), (actual.0.as_str(), actual.1.as_str()));
+
+    let actual = extract_object_store_url_and_path("s3://bucket/");
+    assert_eq!(("s3://bucket/", ""), (actual.0.as_str(), actual.1.as_str()));
+
+    let actual = extract_object_store_url_and_path("s3://bucket/path");
     assert_eq!(
-        ObjectStoreUrl::parse("s3://bucket").unwrap().as_str(),
-        actual.0.as_str()
+        ("s3://bucket/", "path"),
+        (actual.0.as_str(), actual.1.as_str())
     );
-    assert_eq!("", actual.1.as_str());
-
-    let (actual_osu, actual_path) = extract_object_store_url_and_path("s3://bucket/");
-    let expected_osu = ObjectStoreUrl::parse("s3://bucket").unwrap();
-    let expected_path = String::from("");
-    assert_eq!(expected_osu.as_str(), actual_osu.as_str());
-    assert_eq!(expected_path, actual_path);
-
-    let (actual_osu, actual_path) = extract_object_store_url_and_path("s3://bucket/path");
-    let expected_osu = ObjectStoreUrl::parse("s3://bucket").unwrap();
-    let expected_path = String::from("path");
-    assert_eq!(expected_osu.as_str(), actual_osu.as_str());
-    assert_eq!(expected_path, actual_path);
 }
 
 fn extract_leading_path_without_glob_characters(path: &str) -> Path {
@@ -134,6 +127,10 @@ fn extract_leading_path_without_glob_characters(path: &str) -> Path {
 
 #[test]
 fn test_extract_leading_path_without_glob_characters() {
+    assert_eq!(
+        "a/b/c",
+        extract_leading_path_without_glob_characters("a/b/c").as_ref()
+    );
     assert_eq!(
         "",
         extract_leading_path_without_glob_characters("a?").as_ref()
