@@ -1,3 +1,9 @@
+---
+weight: 1
+bookFlatSection: true
+title: "Query a file on S3 with a custom endpoint (eg: minio)"
+---
+
 # Query a file on S3 with a custom endpoint (eg: minio)
 
 Spin up [minio](https://min.io/) as a custom S3 endpoint:
