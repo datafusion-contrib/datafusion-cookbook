@@ -40,8 +40,8 @@ async fn main() -> Result<()> {
         .collect();
 
     let mut config = ListingTableConfig::new_with_multi_paths(matching_file_urls);
-    config = config.infer_options(&ctx.state.read()).await?;
-    config = config.infer_schema(&ctx.state.read()).await?;
+    config = config.infer_options(&ctx.state()).await?;
+    config = config.infer_schema(&ctx.state()).await?;
 
     let provider = ListingTable::try_new(config)?;
 
