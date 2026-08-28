@@ -1,0 +1,40 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Ingredient pins go stale as the ecosystem moves, with no commit to
+    # trigger a build. Check every Monday.
+    - cron: "0 6 * * 1"
+
+jobs:
+  generated-files:
+    name: generated files are current
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Parses every ingredient (failing on malformed front matter) and
+      # confirms README.md and llms.txt match what they render to.
+      - name: check README.md and llms.txt are up to date
+        run: python3 dev/generate.py --check
+
+  crate-versions:
+    name: pinned versions still resolve
+    runs-on: ubuntu-latest
+    # Reads the crates.io sparse index, so it can fail for network reasons
+    # rather than because an ingredient is wrong. Surfaced, never blocking.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: check ingredient versions against crates.io
+        run: python3 dev/check_versions.py

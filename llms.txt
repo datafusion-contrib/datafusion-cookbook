@@ -1,0 +1,160 @@
+# DataFusion Cookbook
+
+> Ingredients for assembling custom analytic systems from Apache DataFusion.
+> Each ingredient is a building block with a verified crate version, an
+> install command, and its known pitfalls. Generated from ingredients/*.md
+> by dev/generate.py — do not edit by hand.
+
+Unless stated otherwise, every ingredient here is pinned against DataFusion 54.
+DataFusion 55 exists but most of the ecosystem has not moved to it yet; mixing
+majors puts two incompatible copies of DataFusion in one dependency graph.
+
+## Base
+
+- [DataFusion Core](ingredients/datafusion-core.md): The query engine itself — SQL and DataFrame APIs, Arrow memory model, built-in Parquet/CSV/JSON/Avro readers.
+  - When to use: Always. Every recipe starts here.
+  - Install: `cargo add datafusion@54.1.0 tokio@1 --features tokio/full`
+  - DataFusion: 54 | Status: stable
+  - Pitfall: DataFusion 55.0.0 is the latest release, but this cookbook pins 54.1.0. Almost every contrib crate still requires datafusion ^54, and 54/55 cannot coexist in one dependency graph. See the Version Compatibility section of the README before overriding this.
+  - Pitfall: Requires an async runtime. Add tokio with the `full` feature or `#[tokio::main]` will not resolve.
+  - Pitfall: The query engine is `SessionContext`. Creating one per query is fine but you lose registered tables and any configured object stores.
+  - Pitfall: There is no `parquet_scan()` / `read_parquet()` SQL function. DuckDB-style direct file queries need `SessionContext::new().enable_url_table()`, after which `SELECT * FROM 'file.parquet'` works. Without it that query fails with a table-not-found error.
+
+## REPL Scaffolding
+
+- [REPL Line Editing](ingredients/rustyline.md): Readline-style input for a CLI — history, emacs/vi keybindings, multi-line editing, completion hooks.
+  - When to use: You are building an interactive prompt and want arrow-key history and line editing rather than bare `stdin.read_line`.
+  - Install: `cargo add rustyline@18.0.1`
+  - DataFusion: any | Status: stable
+  - Pitfall: MIT licensed, not Apache-2.0. Both are permissive and GPL-compatible, but if a prompt specifies Apache-2.0 exclusively, call this out rather than silently adding it.
+  - Pitfall: SQL input is multi-line and terminated by `;`. `readline()` returns a single line, so you must accumulate lines yourself until you see the semicolon.
+- [Table-Formatted Output](ingredients/pretty-printing.md): Render Arrow RecordBatches as an aligned ASCII table, the `+----+-------+` format familiar from DuckDB and psql.
+  - When to use: Any time query results go to a terminal. Nothing extra to install — it ships with DataFusion.
+  - DataFusion: 54 | Status: stable
+  - Pitfall: Do not add `comfy-table` or `prettytable-rs` for this. DataFusion already re-exports Arrow's formatter, and adding a second table library is the single most common piece of redundant work in CLI builds.
+  - Pitfall: `df.show()` prints to stdout and returns `()`. When you need the text — for tests, or to page it — use `pretty_format_batches` instead.
+  - Pitfall: Formatting requires the full result set in memory, since column widths depend on every row. Apply a LIMIT before formatting interactive output.
+  - Pitfall: Use the `datafusion::arrow` re-export rather than adding `arrow` to Cargo.toml. Adding it directly risks pulling a different arrow major than DataFusion links, which produces `expected RecordBatch, found RecordBatch` type errors.
+- [datafusion-cli (prebuilt)](ingredients/datafusion-cli.md): An existing, Apache-2.0 licensed, DuckDB-style SQL CLI with a REPL, table-formatted output, and direct Parquet/CSV/JSON/Avro file queries.
+  - When to use: Before building a CLI from scratch. If the requirement is "a DuckDB-style CLI over Parquet", this already is one — build only if you need behaviour it lacks.
+  - Install: `cargo install datafusion-cli@54.1.0`
+  - DataFusion: 54 | Status: stable
+  - Pitfall: This is a binary, not a library. You cannot depend on it to build your own CLI; read its source as a reference instead.
+  - Pitfall: Installs the `datafusion-cli` binary. `cargo install` builds from source and takes several minutes.
+
+## File Formats
+
+- [JSON (newline-delimited)](ingredients/json.md): Read newline-delimited JSON (NDJSON) files with inferred schemas.
+  - When to use: Log-style data, one JSON object per line. Built in — no extra dependency.
+  - DataFusion: 54 | Status: stable
+  - Pitfall: This reads newline-delimited JSON, not a JSON array. A file containing `[{...},{...}]` will not parse. Convert to one object per line first.
+  - Pitfall: Schema inference samples a bounded number of records. A field that only appears late in a large file will be missing from the schema, and queries against it fail with a column-not-found error. Raise `schema_infer_max_rec` or supply the schema explicitly.
+  - Pitfall: Nested objects become Arrow struct columns, addressed with dot notation. Genuinely dynamic JSON is better served by the JSON Functions ingredient.
+- [JSON Functions](ingredients/json-functions.md): SQL functions for querying JSON held in string columns — `json_get`, `json_get_str`, `json_contains`, and the `->` operator.
+  - When to use: JSON is stored as text inside a column and its shape varies per row, so it cannot be modelled as a fixed Arrow struct.
+  - Install: `cargo add datafusion-functions-json@0.54.2`
+  - DataFusion: 54 | Status: stable
+  - Pitfall: The crate's major.minor tracks the DataFusion version it targets: 0.54.x is for DataFusion 54.x. Picking the newest release without matching that pairing is the usual cause of build failure.
+  - Pitfall: Functions must be registered explicitly with `register_all`. They are not picked up merely by adding the dependency, and the failure looks like an unrelated `Invalid function` planning error.
+- [Parquet](ingredients/parquet.md): Read and write Parquet, with predicate and projection pushdown, row-group pruning, and page-index filtering.
+  - When to use: The default columnar format. Assume Parquet unless the prompt says otherwise.
+  - DataFusion: 54 | Status: stable
+  - Pitfall: Enabled by DataFusion's default features. Do not add the `parquet` crate separately unless you are working with the low-level reader — mismatched arrow majors are the usual result.
+  - Pitfall: Registering a directory reads every Parquet file in it as one table, and fails if their schemas differ. Pass an explicit schema, or use `ListingOptions` with `schema_infer_max_records`, when files have drifted.
+  - Pitfall: Pruning statistics only help if the file was written with them. Files produced by some writers have no row-group statistics, and every query becomes a full scan regardless of the predicate.
+- [Variant](ingredients/variant.md): UDFs for the open Variant binary type — semi-structured data with a compact binary encoding rather than reparsed text.
+  - When to use: You have semi-structured data heavy enough that repeatedly parsing JSON text is the bottleneck.
+  - Install: `cargo add datafusion-variant@0.1.0`
+  - DataFusion: 52 | Status: experimental
+  - Pitfall: Requires datafusion ^52.1 and arrow ^57 — two majors behind this cookbook's DataFusion 54 base. It cannot be combined with the rest of the menu as published. Treat it as a preview and check for a newer release before planning around it.
+  - Pitfall: At 0.1.0 with no releases since, the API should be expected to change.
+  - Pitfall: Variant support is moving into Arrow and DataFusion upstream. Check whether core already covers your case before adding this.
+- [Vortex](ingredients/vortex.md): A next-generation compressed columnar format with random access and pushdown, positioned as a faster alternative to Parquet.
+  - When to use: Scan performance on Parquet is the bottleneck and you control both writer and reader.
+  - Install: `cargo add vortex-datafusion@0.85.0`
+  - DataFusion: 54 | Status: experimental
+  - Pitfall: Depends on the fine-grained datafusion-* subcrates at ^54, not the datafusion facade. It composes with DataFusion 54 but the dependency tree looks different from other ingredients.
+  - Pitfall: Moves fast and its version is nowhere near DataFusion's. Pin an exact version; 0.x minor bumps carry breaking changes.
+  - Pitfall: Not an interchange format. Nothing outside the Vortex ecosystem reads these files, so keep Parquet if anything else consumes the output.
+- [Zarr](ingredients/zarr.md): Chunked, compressed N-dimensional array storage, the standard format in scientific and geospatial computing.
+  - When to use: Working with array-shaped scientific data — climate, satellite, genomics — that is already stored as Zarr.
+  - DataFusion: 54 | Status: unpublished
+  - Pitfall: Not published to crates.io. It must be a git dependency, which means no version pinning through Cargo's registry and no `cargo add <name>` shorthand.
+  - Pitfall: Zarr is N-dimensional; SQL tables are two-dimensional. How arrays are flattened into rows and columns is the thing to check before committing to it.
+  - Pitfall: Verify which DataFusion version the current main branch targets before wiring it in — with no releases there is no version contract to rely on.
+
+## Data Generation
+
+- [TPC-H Data Generation](ingredients/tpch.md): Generate TPC-H benchmark datasets as Parquet, CSV, or .tbl at any scale factor, in pure Rust.
+  - When to use: You need realistic multi-table test data, or the prompt asks for benchmark numbers and you have no dataset to hand.
+  - Install: `cargo install tpchgen-cli@3.0.0`
+  - DataFusion: any | Status: stable
+  - Pitfall: Output format is a subcommand, not a flag: `tpchgen-cli parquet -s 1`. There is no `--format` option.
+  - Pitfall: Scale factor is roughly gigabytes of raw data. SF=1 is fine on a laptop; SF=100 will fill a disk. Start at SF=1.
+  - Pitfall: A binary, not a library dependency. Generate the data as a build step, then point DataFusion at the output directory.
+  - Pitfall: Also distributed as a Python package, so `uvx tpchgen-cli` runs it with no Rust toolchain. Also mirrored at datafusion-contrib/tpcgen-rs, but the published crates come from the clflushopt repo.
+
+## Observability
+
+- [OpenTelemetry Tracing](ingredients/tracing.md): Wrap query execution in tracing spans, record native DataFusion metrics, and export to Jaeger, DataDog, or any OTLP collector.
+  - When to use: You need to see where query time goes, or the prompt asks for metrics such as execution time and resource usage.
+  - Install: `cargo add datafusion-tracing@54.0.0`
+  - DataFusion: 54 | Status: stable
+  - Pitfall: The crate version tracks the DataFusion version exactly: use 54.0.0 with DataFusion 54, 55.0.0 with DataFusion 55. Mixing them will not resolve. The crate's README shows 55.0.0 because it tracks the latest core release.
+  - Pitfall: Installed as a physical optimizer rule on a SessionStateBuilder, so the context must be built with `SessionContext::new_with_state`. A plain `SessionContext::new()` is not instrumented and produces no spans.
+  - Pitfall: Emits to a `tracing` subscriber. Without one initialised, everything is silently discarded and it looks like the integration failed.
+
+## Connectors
+
+- [PostgreSQL](ingredients/postgres-connector.md): Query live PostgreSQL tables from DataFusion SQL, with joins and filters pushed down to the database.
+  - When to use: Data lives in an existing PostgreSQL database and you want to query or join it without exporting to files first.
+  - Install: `cargo add datafusion-table-providers@0.13.1 --features postgres`
+  - DataFusion: 54 | Status: stable
+  - Pitfall: Requires datafusion ^54. It is the main reason this cookbook pins DataFusion 54 rather than the newer 55.
+  - Pitfall: Connection parameters go through `to_secret_map`, not a connection URL string. Passing a `postgres://` DSN will not compile.
+  - Pitfall: Without datafusion-federation, joins between two PostgreSQL tables are executed by pulling both sides into DataFusion. Add federation to push the join into the database.
+  - Pitfall: The repo has been split into leaf crates such as `datafusion-table-providers-postgres`. The facade crate and its feature flags still work and are what this entry pins.
+- [Query Federation](ingredients/federation.md): Push joins, filters, and TopK queries down into the remote engine that owns the data instead of pulling rows into DataFusion.
+  - When to use: You have registered two or more tables from the same remote database and want the join executed there rather than locally.
+  - Install: `cargo add datafusion-federation@0.5.5`
+  - DataFusion: 54 | Status: stable
+  - Pitfall: You must build the SessionContext from the federated session state. Adding the dependency alone changes nothing, and the symptom is silently slow queries rather than an error.
+  - Pitfall: Only pushes down where the remote engine supports the operation. A DataFusion-specific UDF in the predicate blocks pushdown for the whole subtree.
+  - Pitfall: Requires datafusion ^54, matching the table providers.
+
+## Wire Transport
+
+- [ADBC Client](ingredients/adbc.md): Arrow Database Connectivity — a JDBC/ODBC-shaped client API that returns Arrow batches instead of rows.
+  - When to use: You are writing the client half, connecting to a Flight SQL or other ADBC-speaking server without per-row conversion overhead.
+  - Install: `cargo add adbc_core@0.24.0`
+  - DataFusion: any | Status: stable
+  - Pitfall: This is the client abstraction, not a server. Pair it with the Flight SQL Server ingredient, or with an existing ADBC-speaking database.
+  - Pitfall: Concrete drivers are separate crates or dynamically loaded shared libraries. Adding `adbc_core` alone gives you traits and no way to connect.
+  - Pitfall: Driver-manager based drivers need the native library present at runtime; a missing .so surfaces as a driver-load error rather than a connection error.
+- [Arrow Flight](ingredients/arrow-flight.md): The raw gRPC protocol for moving Arrow batches between processes, underneath Flight SQL.
+  - When to use: You need a custom data-transfer protocol. If you want a SQL-queryable endpoint, take Flight SQL Server instead.
+  - Install: `cargo add arrow-flight@58.4.0 --features flight-sql`
+  - DataFusion: 54 | Status: stable
+  - Pitfall: The arrow-flight major must match the arrow major DataFusion links. DataFusion 54 uses arrow 58.3, so use arrow-flight 58.x. DataFusion 55 uses arrow 59 and needs arrow-flight 59.x.
+  - Pitfall: Most people reaching for this actually want Flight SQL Server, which implements the query endpoints for you. Writing raw Flight means implementing DoGet/GetFlightInfo by hand.
+  - Pitfall: The SQL types live behind the `flight-sql` feature and are absent by default, which reads as a missing module.
+- [Flight SQL Server](ingredients/flight-sql-server.md): Serve DataFusion over Arrow Flight SQL, so JDBC/ODBC/ADBC clients can connect to it as a database.
+  - When to use: You want BI tools or remote clients to query your engine over a network, rather than embedding it in a single process.
+  - Install: `cargo add datafusion-flight-sql-server@0.4.18`
+  - DataFusion: 54 | Status: stable
+  - Pitfall: Pins datafusion ^54 and arrow-flight ^58.3. Pairing it with DataFusion 55 (which needs arrow 59) will not resolve.
+  - Pitfall: Pulls in datafusion-federation as a hard dependency, so the federation optimizer is present whether or not you use it.
+  - Pitfall: Serves gRPC over HTTP/2. Behind a proxy that only speaks HTTP/1.1 the connection fails in a way that looks like an auth problem.
+- [PostgreSQL Wire Protocol](ingredients/postgres-wire.md): Expose DataFusion over the PostgreSQL wire protocol so psql, DBeaver, Metabase, and Grafana connect without any Arrow-aware driver.
+  - When to use: Clients already speak PostgreSQL and you do not want them to install a Flight SQL driver.
+  - Install: `cargo add datafusion-postgres@0.18.0`
+  - DataFusion: 54 | Status: stable
+  - Pitfall: Requires datafusion ^54.
+  - Pitfall: The CLI is a separate crate, `datafusion-postgres-cli`. Running `cargo install datafusion-postgres` does not give you the binary.
+  - Pitfall: Client tools that introspect `pg_catalog` on connect need `setup_pg_catalog` to be called explicitly. Skip it and psql connects but tab-completion and DBeaver's schema browser come back empty.
+  - Pitfall: DataFusion's SQL dialect is not PostgreSQL's. Queries lifted from a Postgres codebase can fail to plan even though the wire protocol works.
+
+## Prompts
+
+- [PROMPTS.md](PROMPTS.md): Example systems to build, with acceptance criteria.
+- [TESTING.md](TESTING.md): How we evaluate whether this repo actually helps.

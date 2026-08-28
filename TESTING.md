@@ -1,31 +1,88 @@
-We evaluate the prompts and information in this repository in the following way:
+# Testing
 
-## Goal: 
+We evaluate the prompts and information in this repository in the following
+way.
 
-We aim
-* Identify any improvements to this repository or upstream repositories that would make it easier and faster to build the systems described in this repo
+## Goal
 
+Identify any improvements to this repository, or to upstream repositories, that
+would make it easier and faster to build the systems described here.
 
-## Metrics: 
+The output of a run is not the built system. It is the **list of things that
+slowed the agent down** — those become issues, pitfalls in ingredient files, or
+upstream patches.
 
-Time to Awesome (TM): Due to Paul Dix (TODO find link): how quickly is the system 
-build and working that awesome and satisfies the example queries of the prompt.
+## Metrics
 
-Specifically
-1. How fast (wallclock time) can the system create the first version of the system that satisfies the prompt?
-2. How many tokens / other measure of effort does it take to get the system working and satisfying the prompt?
-3. How much back and forth does the system require to get the system working and satisfying the prompt?
-3. How well does the system satisfy the prompt? (e.g. does it support all the features of the prompt, or only some of them?)
+**Time to Awesome (TM)**: how quickly a system is built and working, in a way
+that is awesome and satisfies the example queries of the prompt.
 
-## Methodology:
+> Attribution: Andrew's original note credits this to Paul Dix with a `TODO
+> find link`. A search did not turn up a citable source, so it is left open
+> rather than guessed at. If you know the reference, please add it.
 
-1. Use the specified coding tool and the prompt in the repository
-2. Evaluate the system built based on the prompt
-3. File any issues or pull requests to improve the system or the prompt, or the upstream repositories that are used to build the system.
+Specifically:
+
+1. How fast (wallclock time) can the agent produce the first version that
+   satisfies the prompt?
+2. How many tokens, or other measure of effort, does it take?
+3. How much back and forth does it require?
+4. How well does the result satisfy the prompt — all of the acceptance
+   criteria, or only some?
+
+Metric 4 is the one to record carefully. Every prompt in
+[PROMPTS.md](PROMPTS.md) has numbered acceptance criteria; report the score as
+`criteria met / total` so runs are comparable.
+
+## Methodology
+
+1. Use the specified coding tool and a prompt from
+   [PROMPTS.md](PROMPTS.md), verbatim.
+2. Record what the agent was given besides the prompt — nothing, `llms.txt`,
+   the whole repo. **This is the independent variable.** A run that does not
+   record it cannot be compared against another.
+3. Evaluate the built system against the acceptance criteria.
+4. Note every point where the agent stalled, guessed wrong, or needed
+   correction.
+5. File issues or pull requests against this repo or the upstream
+   repositories. A wrong turn that is now a documented pitfall is the unit of
+   progress here.
+
+### On what to vary
+
+The open question behind this repo — see
+[issue #5](https://github.com/datafusion-contrib/datafusion-cookbook/issues/5)
+— is which format actually helps an agent: a menu of tables, front-mattered
+ingredient files, an `llms.txt` index, `AGENTS.md`, skills, or something else.
+
+Rather than settling that by argument, vary the **context** column below and
+hold the prompt and the tool fixed. That turns the format question into a
+measurement. The current repo layout is designed for this: ingredients are
+authored once and rendered into multiple formats, so a new format is a
+renderer rather than a rewrite.
 
 ## Current Results
 
-| Agent | Prompt | Speed to initial completion | Cost of initial completion | Required Back and Forth | Build Quality |
-|-------|--------|-----------------------------|----------------------------|:-----------------------|---------------|
-|       |        |                             |                            |                        |               |
-|       |        |                             |                            |                        |               |
+No runs recorded yet.
+
+| Agent | Prompt | Context given | Speed to initial completion | Cost of initial completion | Required back and forth | Criteria met | Notes |
+|-------|--------|---------------|------------------------------|----------------------------|-------------------------|--------------|-------|
+|       |        |               |                              |                            |                         |              |       |
+
+### Known blockers, before any run
+
+These are already recorded as pitfalls in the ingredient files. They are listed
+here because they are the first things a run is expected to hit, and if a run
+does *not* hit them, that is itself a result worth recording.
+
+1. **DataFusion 54 vs 55.** DataFusion 55 is the newest release, but nearly all
+   of the ecosystem still requires `^54`. An agent that reaches for the latest
+   version and then adds a connector gets two incompatible copies of
+   DataFusion in one dependency graph.
+2. **`parquet_scan()` does not exist.** The DataFusion equivalent is
+   `enable_url_table()` plus `SELECT * FROM 'file.parquet'`.
+3. **Redundant table formatters.** DataFusion re-exports Arrow's pretty
+   printer; adding `comfy-table` on top is wasted work.
+4. **Explicit registration.** `datafusion-functions-json` and
+   `datafusion-tracing` both do nothing until registered on the context. The
+   failure looks unrelated to the missing registration call.
