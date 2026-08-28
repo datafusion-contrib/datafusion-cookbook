@@ -1,13 +1,28 @@
 # datafusion-cookbook
 
-Cookbook with recipes for datafusion:
+This is an Agent first cookbook. 
 
-* [Query a file on S3](./content/docs/s3)
-* [Query a file on S3 with a custom endpoint (eg: minio)](./content/docs/s3-custom-endpoint)
-* [Acquire credentials with the AWS-RUST-SDK and query a file on S3](./content/docs/s3-sdk-credentials)
-* [Query all files matching a globbing pattern on S3](./content/docs/s3-globbing)
+It contains recipes for quickly assembling custom analytic systems from Apache DataFusion
 
-Once we've written the instructions that go with the recipe (rust source code) the [datafusion-cookbook](https://datafusion-contrib.github.io/datafusion-cookbook/) site will probably be the appropriate entrypoint
+(TODO links to the datafusion website and documentation and paper)
 
-Struggled with something while using datafusion? Want to share this and help others succeed faster? Feel very welcome to contribute.
+You can choose from a menu of options to assemble a custom analytic system that
+meets your needs.
 
+Example prompts:
+- "make a duckdb style CLI that uses Apache 2 licensed code with nice display formatting that can read parquet and json"
+
+See more prompts in the [PROMPTS.md](PROMPTS.md) file.
+
+Example XXX:
+
+
+Menu Options
+
+
+
+
+
+
+# Instructions for adding a new recipe:
+TODO
