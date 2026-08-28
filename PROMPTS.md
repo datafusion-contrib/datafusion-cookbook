@@ -3,11 +3,12 @@ This file contains example prompts for interesting systems you may wish to try o
 ## "DuckDB style CLI" 
 
 We are making make a duckdb style CLI Apache 2 licensed code. 
-nice display formatting that can read parquet files.
+nice display formatting that can read parquet files and run the ClickBench
+benchmarks.
 
 Example usage:
 
-(TODO find a publically accessable dataset to read from)
+(TODO find a publicly accessible dataset to read from)
 
 ```sql
 yadb> select * from parquet_scan('data.parquet') limit 5;
@@ -32,3 +33,6 @@ Features:
 2. Support SQL queries (SELECT, WHERE, LIMIT)
 3. Display results in a tabular format
 
+
+Additional potential options:
+1. Add metrics to the CLI to show query execution time and resource usage such as memory, CPU and network bandwidth usage
