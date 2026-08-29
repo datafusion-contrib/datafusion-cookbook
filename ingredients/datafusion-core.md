@@ -16,6 +16,8 @@ pitfalls:
   - "Requires an async runtime. Add tokio with the `full` feature or `#[tokio::main]` will not resolve."
   - "The query engine is `SessionContext`. Creating one per query is fine but you lose registered tables and any configured object stores."
   - "There is no `parquet_scan()` / `read_parquet()` SQL function. DuckDB-style direct file queries need `SessionContext::new().enable_url_table()`, after which `SELECT * FROM 'file.parquet'` works. Without it that query fails with a table-not-found error."
+  - "`SHOW TABLES` and `DESCRIBE` are off by default and fail with 'SHOW TABLES is not supported unless information_schema is enabled' — which reads like a missing feature rather than a config flag. Build the context from `SessionConfig::new().with_information_schema(true)`."
+  - "`SHOW TABLES` also lists the information_schema views themselves. For a user-facing table list, query `information_schema.tables` and filter out `table_schema = 'information_schema'`."
 example: https://github.com/apache/datafusion/tree/main/datafusion-examples
 ---
 

@@ -19,6 +19,8 @@ majors puts two incompatible copies of DataFusion in one dependency graph.
   - Pitfall: Requires an async runtime. Add tokio with the `full` feature or `#[tokio::main]` will not resolve.
   - Pitfall: The query engine is `SessionContext`. Creating one per query is fine but you lose registered tables and any configured object stores.
   - Pitfall: There is no `parquet_scan()` / `read_parquet()` SQL function. DuckDB-style direct file queries need `SessionContext::new().enable_url_table()`, after which `SELECT * FROM 'file.parquet'` works. Without it that query fails with a table-not-found error.
+  - Pitfall: `SHOW TABLES` and `DESCRIBE` are off by default and fail with 'SHOW TABLES is not supported unless information_schema is enabled' — which reads like a missing feature rather than a config flag. Build the context from `SessionConfig::new().with_information_schema(true)`.
+  - Pitfall: `SHOW TABLES` also lists the information_schema views themselves. For a user-facing table list, query `information_schema.tables` and filter out `table_schema = 'information_schema'`.
 
 ## REPL Scaffolding
 
@@ -47,7 +49,9 @@ majors puts two incompatible copies of DataFusion in one dependency graph.
 - [JSON (newline-delimited)](ingredients/json.md): Read newline-delimited JSON (NDJSON) files with inferred schemas.
   - When to use: Log-style data, one JSON object per line. Built in — no extra dependency.
   - DataFusion: 54 | Status: stable
-  - Pitfall: This reads newline-delimited JSON, not a JSON array. A file containing `[{...},{...}]` will not parse. Convert to one object per line first.
+  - Pitfall: The options type is `JsonReadOptions`. `NdJsonReadOptions` is a deprecated alias that still compiles but warns, and neither is in the prelude — import `datafusion::execution::options::JsonReadOptions` explicitly or you get an undeclared-type error.
+  - Pitfall: `file_extension` borrows its argument, so `JsonReadOptions::default().file_extension(&format!(\".{ext}\"))` fails to compile with a dropped-temporary error. Bind the string to a variable first.
+  - Pitfall: This reads newline-delimited JSON, not a JSON array. A file containing `[{...},{...}]` will not parse. The error is `Expected JSON record to be an object, found Array`, which does not point at the fix. Convert to one object per line first.
   - Pitfall: Schema inference samples a bounded number of records. A field that only appears late in a large file will be missing from the schema, and queries against it fail with a column-not-found error. Raise `schema_infer_max_rec` or supply the schema explicitly.
   - Pitfall: Nested objects become Arrow struct columns, addressed with dot notation. Genuinely dynamic JSON is better served by the JSON Functions ingredient.
 - [JSON Functions](ingredients/json-functions.md): SQL functions for querying JSON held in string columns — `json_get`, `json_get_str`, `json_contains`, and the `->` operator.

@@ -23,7 +23,10 @@ results in [TESTING.md](TESTING.md).
 **If you are an agent:** read [llms.txt](llms.txt). It is the whole menu —
 every ingredient, its install command, and its known pitfalls — in one file.
 
-**If you are a human:** the menu below links to one file per ingredient.
+**If you are a human:** the menu below links to one file per ingredient, and
+[`recipes/`](recipes/) holds complete worked systems built from them —
+start with [duckdb-style-cli](recipes/duckdb-style-cli/) if you want to see
+the ingredients assembled into something that runs.
 
 Each ingredient in [`ingredients/`](ingredients/) records what it is, when to
 reach for it, the exact crate version this cookbook is tested against, and the

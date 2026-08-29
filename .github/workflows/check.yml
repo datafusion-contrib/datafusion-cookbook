@@ -38,3 +38,32 @@ jobs:
 
       - name: check ingredient versions against crates.io
         run: python3 dev/check_versions.py
+
+  recipes:
+    name: recipes build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        recipe: [duckdb-style-cli]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: recipes/${{ matrix.recipe }}
+
+      # A recipe that does not compile is worse than no recipe, since the
+      # whole claim of this repo is that the versions and APIs here are real.
+      - name: build
+        working-directory: recipes/${{ matrix.recipe }}
+        run: cargo build --locked
+
+      - name: clippy
+        working-directory: recipes/${{ matrix.recipe }}
+        run: cargo clippy --locked -- -D warnings
+
+      - name: fmt
+        working-directory: recipes/${{ matrix.recipe }}
+        run: cargo fmt --check

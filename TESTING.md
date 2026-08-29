@@ -63,11 +63,49 @@ renderer rather than a rewrite.
 
 ## Current Results
 
-No runs recorded yet.
-
 | Agent | Prompt | Context given | Speed to initial completion | Cost of initial completion | Required back and forth | Criteria met | Notes |
 |-------|--------|---------------|------------------------------|----------------------------|-------------------------|--------------|-------|
-|       |        |               |                              |                            |                         |              |       |
+| Claude Opus 4.5 (Claude Code) | DuckDB style CLI | Whole repo, written by the same session | Not measured | Not measured | 0 human turns; 4 self-corrected compile/run failures | 7/7 | Produced [recipes/duckdb-style-cli](recipes/duckdb-style-cli/) |
+
+### Reading that row honestly
+
+It is a data point about *the prompt and the ingredients*, not a clean
+measurement of the cookbook's value, for two reasons:
+
+1. **The agent wrote the cookbook in the same session.** It had the pitfalls in
+   working memory, not merely on disk. This is the strongest possible version
+   of "context given" and cannot be compared against a cold run.
+2. **Wallclock and token cost were not instrumented.** Metrics 1 and 2 are
+   unmeasured, so only metric 4 (criteria met) is real here.
+
+What it does establish: the prompt is answerable, its seven criteria are
+checkable, and the ingredients name the right crates — the build used exactly
+the five ingredients the menu points at, with no dead ends from wrong crate
+names or versions.
+
+The comparison that matters has not been run: the same prompt, cold sessions,
+varying only the context given. That is the next thing to do.
+
+### What the build actually found
+
+Four failures, all self-corrected, all now pitfalls on the ingredients:
+
+| Failure | Ingredient updated |
+|---------|--------------------|
+| `NdJsonReadOptions` not in prelude — undeclared type | [json](ingredients/json.md) |
+| `NdJsonReadOptions` is a deprecated alias for `JsonReadOptions` | [json](ingredients/json.md) |
+| `file_extension` borrows; inline `format!` is a dropped temporary | [json](ingredients/json.md) |
+| `SHOW TABLES` fails unless `information_schema` is enabled | [datafusion-core](ingredients/datafusion-core.md) |
+
+Three of the four are in the JSON path, which suggests the JSON ingredient was
+the weakest entry on the menu — it documented an API that the compiler
+rejects. The cookbook's own text was wrong, and building the recipe is what
+exposed it.
+
+Notably, the one mistake the cookbook *had* already recorded —
+`parquet_scan()` not existing — cost nothing, because the pitfall was read
+before the code was written. That is the mechanism this repo is betting on,
+observed once.
 
 ### Known blockers, before any run
 

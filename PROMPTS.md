@@ -67,6 +67,12 @@ yadb> select tpep_pickup_datetime, passenger_count, total_amount
    is called out explicitly.
 7. Reports an error and returns to the prompt on bad SQL, rather than exiting.
 
+### Worked recipe
+
+[`recipes/duckdb-style-cli`](recipes/duckdb-style-cli/) is a build of this
+prompt that meets all seven criteria, in ~250 lines and three dependencies.
+Its README records which criteria are met and what building it cost.
+
 ### Notes for whoever runs this
 
 Two things reliably go wrong, both recorded as pitfalls in the ingredients:

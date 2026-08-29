@@ -1,0 +1,21 @@
+[package]
+name = "yadb"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "A DuckDB-style SQL CLI built on Apache DataFusion. Recipe from the DataFusion cookbook."
+
+[dependencies]
+# Pinned to DataFusion 54, not the newer 55 — see the Version Compatibility
+# section of the cookbook README. Most of the contrib ecosystem still
+# requires ^54, and the majors cannot coexist in one dependency graph.
+datafusion = "54.1.0"
+tokio = { version = "1", features = ["full"] }
+
+# MIT, not Apache-2.0. Both are permissive, but the prompt asks for Apache-2
+# licensed code, so it is called out here rather than added silently.
+rustyline = "18.0.1"
+
+# NOTE: no table-formatting crate. DataFusion re-exports Arrow's pretty
+# printer as datafusion::arrow::util::pretty — adding comfy-table on top of
+# it is the most common piece of redundant work in this build.
