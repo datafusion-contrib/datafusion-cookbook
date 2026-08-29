@@ -88,31 +88,24 @@ MIT**, not Apache-2.0 — permissive and compatible, but flagged because the
 prompt asks specifically for Apache-2 licensed code. Dropping it means writing
 the line editor by hand and losing history and keybindings.
 
-## What building this actually taught us
+## Gotchas
 
-The point of the recipe is not the binary. It is the list of things that cost
-time, which are now pitfalls on the ingredients so the next build does not pay
-for them again. Every one of these was hit while writing this, not imagined:
+Non-obvious things this build depends on, all also recorded as pitfalls on the
+ingredients:
 
-1. **`NdJsonReadOptions` is deprecated and not in the prelude.** The name in
-   most examples is the deprecated alias; the current type is
-   `JsonReadOptions`, and neither is re-exported by `datafusion::prelude`. Two
-   compiler errors in a row.
+1. **`JsonReadOptions`, not `NdJsonReadOptions`.** The latter is a deprecated
+   alias, and neither is re-exported by `datafusion::prelude` — import it from
+   `datafusion::execution::options`.
 2. **`file_extension` borrows.** Passing `&format!(".{ext}")` inline fails with
-   a dropped-temporary error. Needs a `let`.
-3. **`SHOW TABLES` is disabled by default.** `.tables` failed with
-   "SHOW TABLES is not supported unless information_schema is enabled", which
-   sounds like an unsupported feature rather than a one-line config change:
+   a dropped-temporary error; bind it first.
+3. **`SHOW TABLES` and `DESCRIBE` are off by default**, and fail with
+   "SHOW TABLES is not supported unless information_schema is enabled" — a
+   config flag, not a missing feature:
    `SessionConfig::new().with_information_schema(true)`.
-4. **`SHOW TABLES` then lists the information_schema views themselves**, so a
-   useful `.tables` queries `information_schema.tables` and filters them out.
-5. **`enable_url_table` is the DuckDB-style file access.** There is no
-   `parquet_scan()`. Knowing this up front removed the single most likely
-   dead end in this prompt.
-
-Items 1–4 were discovered by the compiler and by running it. Item 5 came from
-the cookbook, and is the clearest evidence so far that recording pitfalls pays
-off: it is the mistake this prompt most invites.
+4. **`SHOW TABLES` lists the information_schema views themselves**, so `.tables`
+   queries `information_schema.tables` and filters them out.
+5. **There is no `parquet_scan()`.** DuckDB-style file access is
+   `enable_url_table()`, after which `SELECT * FROM 'file.parquet'` works.
 
 ## Not done
 
