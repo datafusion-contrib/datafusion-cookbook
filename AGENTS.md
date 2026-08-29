@@ -8,18 +8,13 @@ Instructions for coding agents building custom analytic systems from
 1. Start from the user's prompt (examples in [PROMPTS.md](PROMPTS.md)).
 2. Scaffold the base project using [recipes/base.md](recipes/base.md).
 3. Pick the recipes from `recipes/` that match the requested features.
-   Only use recipes listed in the index below — do not invent instructions
-   for features without a recipe.
 4. After applying each recipe, run its **Verify** step before moving on.
    If verification fails, fix the issue before adding more recipes.
 5. Build in `workdir/<project_name>/` (gitignored scratch space).
 
 ## Recipe index
 
-| Recipe | Provides |
-|--------|----------|
-| [base](recipes/base.md) | New cargo project with DataFusion |
-<!-- Add one row per verified recipe. Do not list unverified recipes. -->
+See the [README.md](README.md) for a table of verified recipes.
 
 ## Adding a recipe
 

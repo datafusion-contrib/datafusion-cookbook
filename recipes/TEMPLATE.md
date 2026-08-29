@@ -1,4 +1,11 @@
-<!-- This file contains the structure that new recipes should follow -->
+<!-- 
+This file contains the structure that new recipes should follow
+
+Any new recipe should
+1. a prompt that uses it in the [PROMPTS.md](PROMPTS.md) file, to show how it can be used
+2. a row in the recipe index in [AGENTS.md](AGENTS.md)
+
+-->
 
 # <Recipe name>
 

@@ -14,43 +14,30 @@ Example prompts:
 
 See more prompts in the [PROMPTS.md](PROMPTS.md) file.
 
-Example XXX:
+## Recipe index (Menu)
 
+| Recipe | Provides |
+|--------|----------|
+| [base](recipes/base.md) | New cargo project with DataFusion |
+<!-- Add one row per verified recipe. Do not list unverified recipes. -->
 
 # Menu Options
 
 ## Base
 
-1. Install rust (TODO in a container or on your system) 
+Every project should start with the base recipe to build a project scaffold with DataFusion.
 
-2. Create a new cargo project: 
-```shell
-mkdir -p workdir 
-cd workdir
-cargo new <project_name> --bin
-cd <project_name>
-```
-
-3. Add the base DataFusion dependency to your Cargo.toml file:
-```shell
-cargo add datafusion@55.0.0
-```
+| Name | Description                        | Required Dependency | Install / Usage Instructions |
+|------|:-----------------------------------|---------------------|------------------------------|
+| base | Scaffold a new DataFusion project  | None                | [base.md](recipes/base.md)   |
 
 ## Additional Ingredients
 
 ### REPL Scaffolding
 
-
 | Format | Description      | Required Dependency | Install / Usage Instructions |   |   |
 |--------|:-----------------|---------------------|------------------------------|---|---|
 | TODO   | Basic CLI / REPL |                     | TODO                         |   |   |
-
-
-### Data Format Support
-
-| Format  | Description                          | Required Dependency                   | Install / Usage Instructions |   |   |
-|---------|:-------------------------------------|---------------------------------------|------------------------------|---|---|
-| Variant | Fast binary semi-structured support  | datafusion-contrib/datafusion-variant | TODO                         |   |   |
 
 ## Data Generation
 
@@ -59,36 +46,12 @@ cargo add datafusion@55.0.0
 | TPC-H/TPC-DS | Fast generation of standard benchmark datasets | https://github.com/datafusion-contrib/tpcgen-rs | TODO                         |   |   |
 
 
-### File Formats
-
 | Format  | Description | Required Dependency          | Install / Usage Instructions |   |   |
 |---------|:------------|------------------------------|------------------------------|---|---|
 | Parquet |             | None (built with DataFusion) |                              |   |   |
 | JSON    |             | None (built with DataFusion) |                              |   |   |
 | Vortex  |             | TODO                         |                              |   |   |
 | Zarr    |             | TODO                         |                              |   |   |
-
-## Observability
-
-| Format | Description             | Required Dependency                   | Install / Usage Instructions |   |   |
-|--------|:------------------------|---------------------------------------|------------------------------|---|---|
-| otel   | Open Telemetry Support  | datafusion-contrib/datafusion-tracing | TODO                         |   |   |
-
-## Connectors
-
-| Format   | Description                      | Required Dependency                           | Install / Usage Instructions |   |   |
-|----------|:---------------------------------|-----------------------------------------------|------------------------------|---|---|
-| postgres | Connect to a PostgreSQL database | datafusion-contrib/datafusion-table_providers | TODO                         |   |   |
-
-## Wire Transport
-
-| Format       | Description             | Required Dependency | Install / Usage Instructions |   |   |
-|--------------|:------------------------|---------------------|------------------------------|---|---|
-| arrow-flight | Arrow native transpport | arrow-flight        | TODO                         |   |   |
-| Flight SQL   | Arrow native SQL        | arrow-flight        | TODO                         |   |   |
-| ADBC         | TODO                    |                | TODO                         |   |   |
-| postgres     | Postgres wire protocol  | TODO                | TODO                         |   |   |
-
 
 
 
