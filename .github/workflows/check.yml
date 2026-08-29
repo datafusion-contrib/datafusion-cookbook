@@ -1,8 +1,9 @@
 name: check
 
 on:
+  # Every branch, not just main. Work on this repo happens on branches whose
+  # PRs may target a fork, where these checks would never run otherwise.
   push:
-    branches: [main]
   pull_request:
   schedule:
     # Ingredient pins go stale as the ecosystem moves, with no commit to
