@@ -88,24 +88,10 @@ MIT**, not Apache-2.0 — permissive and compatible, but flagged because the
 prompt asks specifically for Apache-2 licensed code. Dropping it means writing
 the line editor by hand and losing history and keybindings.
 
-## Gotchas
-
-Non-obvious things this build depends on, all also recorded as pitfalls on the
-ingredients:
-
-1. **`JsonReadOptions`, not `NdJsonReadOptions`.** The latter is a deprecated
-   alias, and neither is re-exported by `datafusion::prelude` — import it from
-   `datafusion::execution::options`.
-2. **`file_extension` borrows.** Passing `&format!(".{ext}")` inline fails with
-   a dropped-temporary error; bind it first.
-3. **`SHOW TABLES` and `DESCRIBE` are off by default**, and fail with
-   "SHOW TABLES is not supported unless information_schema is enabled" — a
-   config flag, not a missing feature:
-   `SessionConfig::new().with_information_schema(true)`.
-4. **`SHOW TABLES` lists the information_schema views themselves**, so `.tables`
-   queries `information_schema.tables` and filters them out.
-5. **There is no `parquet_scan()`.** DuckDB-style file access is
-   `enable_url_table()`, after which `SELECT * FROM 'file.parquet'` works.
+The non-obvious API details this build depends on — the `JsonReadOptions`
+import, the `information_schema` flag, `enable_url_table` — are pitfalls on the
+ingredients linked above, not repeated here. `src/main.rs` comments the ones
+that affect the code at the point they matter.
 
 ## Not done
 
