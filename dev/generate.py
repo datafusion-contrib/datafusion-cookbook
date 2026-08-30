@@ -8,6 +8,30 @@ Usage:
     python3 dev/generate.py            # rewrite README.md and llms.txt
     python3 dev/generate.py --check    # exit 1 if they are out of date
 
+Each ingredient is Markdown with a YAML front-matter header:
+
+    ---
+    name: postgres-connector        # required, must match the filename
+    title: PostgreSQL               # required, menu row label
+    category: connectors            # required, one of CATEGORIES below
+    summary: One line.              # required, becomes the menu row
+    when_to_use: One sentence.      # required
+    datafusion: "54"                # required, compatible major, or "any"
+    status: stable                  # required: stable|experimental|unpublished
+    crate: datafusion-table-providers    # omit for built-ins
+    version: "0.13.1"                    # quote it, so 54.0 stays a string
+    features: [postgres]                 # required cargo features
+    arrow: "58"                          # for crates pinned to arrow, not DF
+    license: Apache-2.0                  # SPDX
+    repo: https://github.com/...
+    install: cargo add datafusion-table-providers@0.13.1 --features postgres
+    pitfalls:
+      - One line each.
+    example: https://example.com/working/code
+    ---
+
+    Prose and a snippet that compiles.
+
 Deliberately dependency-free: it runs with a bare python3 and no virtualenv,
 because a generator that needs its own setup step does not get run.
 """

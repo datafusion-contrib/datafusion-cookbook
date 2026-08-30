@@ -114,9 +114,3 @@ one that catches people: plain queries work without `setup_pg_catalog`, but
 `\dt` returns nothing until it has been called.
 
 ---
-
-## Adding a prompt
-
-Keep prompts to things someone would want built, and write the
-acceptance criteria first. If you cannot state how you would check the result,
-the prompt is not ready.

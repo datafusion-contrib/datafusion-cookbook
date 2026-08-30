@@ -178,17 +178,12 @@ Future items to add to the menu:
 
 # Contributing
 
-Add a file to `ingredients/` (copy an existing one; the fields are listed in
-[ingredients/README.md](ingredients/README.md)), then:
+After editing anything in `ingredients/`, run:
 
 ```shell
-python3 dev/check_versions.py <name>   # verify the version — do not guess
+python3 dev/check_versions.py          # verify versions against crates.io
 python3 dev/generate.py                # regenerate the menu and llms.txt
 ```
-
-Commit the regenerated `README.md` and `llms.txt` alongside. Prompts go in
-[PROMPTS.md](PROMPTS.md) and need acceptance criteria, or there is nothing to
-score a run against.
 
 Struggled with something while using DataFusion? Want to share this and help
 others succeed faster? Feel very welcome to contribute.
