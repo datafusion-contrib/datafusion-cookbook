@@ -176,30 +176,20 @@ Future items to add to the menu:
 - Distributed execution (`datafusion-distributed`)
 - Materialized views (`datafusion-materialized-views`)
 
-# Instructions for adding a new recipe
+# Contributing
 
-Ingredients are the reusable building blocks; recipes are complete systems
-assembled from them.
+Add a file to `ingredients/` (copy an existing one; the fields are listed in
+[ingredients/README.md](ingredients/README.md)), then:
 
-To add an **ingredient**, see [ingredients/README.md](ingredients/README.md).
-The short version:
+```shell
+python3 dev/check_versions.py <name>   # verify the version — do not guess
+python3 dev/generate.py                # regenerate the menu and llms.txt
+```
 
-1. Add a file to `ingredients/` with the documented front matter.
-2. Verify the version and DataFusion compatibility — do not guess:
-   ```shell
-   python3 dev/check_versions.py <name>
-   ```
-3. Regenerate the menu and the agent index:
-   ```shell
-   python3 dev/generate.py
-   ```
-4. Commit the ingredient together with the regenerated `README.md` and
-   `llms.txt`. CI runs `dev/generate.py --check` to confirm they match.
+Commit the regenerated `README.md` and `llms.txt` alongside. Prompts go in
+[PROMPTS.md](PROMPTS.md) and need acceptance criteria, or there is nothing to
+score a run against.
 
-To add a **prompt**, add it to [PROMPTS.md](PROMPTS.md) with concrete
-acceptance criteria — the queries it must answer and the output it must
-produce. A prompt without acceptance criteria cannot be scored.
-
-Struggled with something while using DataFusion? Want to share this and help
-others succeed faster? Feel very welcome to contribute — a pitfall recorded in
-an ingredient file is worth more than a new recipe.
+Struggled with something while using DataFusion? Feel very welcome to
+contribute — a pitfall recorded on an ingredient is worth more than a new
+recipe.
