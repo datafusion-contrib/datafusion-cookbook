@@ -190,6 +190,5 @@ Commit the regenerated `README.md` and `llms.txt` alongside. Prompts go in
 [PROMPTS.md](PROMPTS.md) and need acceptance criteria, or there is nothing to
 score a run against.
 
-Struggled with something while using DataFusion? Feel very welcome to
-contribute — a pitfall recorded on an ingredient is worth more than a new
-recipe.
+Struggled with something while using DataFusion? Want to share this and help
+others succeed faster? Feel very welcome to contribute.

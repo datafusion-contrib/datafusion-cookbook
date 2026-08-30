@@ -1,7 +1,6 @@
 # yadb — a DuckDB-style SQL CLI
 
-The worked recipe for the ["DuckDB style CLI" prompt](../../PROMPTS.md) in
-`PROMPTS.md`:
+Built for the ["DuckDB style CLI" prompt](../../PROMPTS.md):
 
 > Make a DuckDB style CLI using Apache 2 licensed code, with nice display
 > formatting, that can read Parquet and JSON files.
@@ -87,11 +86,6 @@ not.
 MIT**, not Apache-2.0 — permissive and compatible, but flagged because the
 prompt asks specifically for Apache-2 licensed code. Dropping it means writing
 the line editor by hand and losing history and keybindings.
-
-The non-obvious API details this build depends on — the `JsonReadOptions`
-import, the `information_schema` flag, `enable_url_table` — are pitfalls on the
-ingredients linked above, not repeated here. `src/main.rs` comments the ones
-that affect the code at the point they matter.
 
 ## Not done
 

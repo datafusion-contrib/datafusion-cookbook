@@ -76,16 +76,10 @@ are checkable, nothing more.
 The comparison that matters has not been run: the same prompt, cold sessions,
 varying only the context given.
 
-Notably, the one mistake the cookbook *had* already recorded —
-`parquet_scan()` not existing — cost nothing, because the pitfall was read
-before the code was written. That is the mechanism this repo is betting on,
-observed once.
-
 ### Known blockers, before any run
 
-These are already recorded as pitfalls in the ingredient files. They are listed
-here because they are the first things a run is expected to hit, and if a run
-does *not* hit them, that is itself a result worth recording.
+The first things a run is expected to hit. If a run does *not* hit them, that
+is itself worth recording.
 
 1. **DataFusion 54 vs 55.** DataFusion 55 is the newest release, but nearly all
    of the ecosystem still requires `^54`. An agent that reaches for the latest
