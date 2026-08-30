@@ -8,9 +8,8 @@ way.
 Identify any improvements to this repository, or to upstream repositories, that
 would make it easier and faster to build the systems described here.
 
-The output of a run is not the built system. It is the **list of things that
-slowed the agent down** — those become issues, pitfalls in ingredient files, or
-upstream patches.
+A run produces a list of things that slowed the agent down. Each becomes an
+issue, a pitfall on an ingredient, or an upstream patch.
 
 ## Metrics
 
@@ -30,9 +29,8 @@ Specifically:
 4. How well does the result satisfy the prompt — all of the acceptance
    criteria, or only some?
 
-Metric 4 is the one to record carefully. Every prompt in
-[PROMPTS.md](PROMPTS.md) has numbered acceptance criteria; report the score as
-`criteria met / total` so runs are comparable.
+Every prompt in [PROMPTS.md](PROMPTS.md) has numbered acceptance criteria.
+Report metric 4 as `criteria met / total` so runs are comparable.
 
 ## Methodology
 
@@ -45,21 +43,18 @@ Metric 4 is the one to record carefully. Every prompt in
 4. Note every point where the agent stalled, guessed wrong, or needed
    correction.
 5. File issues or pull requests against this repo or the upstream
-   repositories. A wrong turn that is now a documented pitfall is the unit of
-   progress here.
+   repositories, and record each wrong turn as a pitfall on the ingredient it
+   belongs to.
 
 ### On what to vary
 
-The open question behind this repo — see
-[issue #5](https://github.com/datafusion-contrib/datafusion-cookbook/issues/5)
-— is which format actually helps an agent: a menu of tables, front-mattered
+[Issue #5](https://github.com/datafusion-contrib/datafusion-cookbook/issues/5)
+asks which format helps an agent most: a menu of tables, front-mattered
 ingredient files, an `llms.txt` index, `AGENTS.md`, skills, or something else.
 
-Rather than settling that by argument, vary the **context** column below and
-hold the prompt and the tool fixed. That turns the format question into a
-measurement. The current repo layout is designed for this: ingredients are
-authored once and rendered into multiple formats, so a new format is a
-renderer rather than a rewrite.
+Vary the **context given** column, holding the prompt and the tool fixed. The
+repo layout supports this: ingredients are authored once and rendered into
+multiple formats, so adding a format means writing a renderer.
 
 ## Current Results
 

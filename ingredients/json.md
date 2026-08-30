@@ -13,7 +13,7 @@ pitfalls:
   - "`file_extension` borrows its argument, so `JsonReadOptions::default().file_extension(&format!(\".{ext}\"))` fails to compile with a dropped-temporary error. Bind the string to a variable first."
   - "This reads newline-delimited JSON, not a JSON array. A file containing `[{...},{...}]` will not parse. The error is `Expected JSON record to be an object, found Array`, which does not point at the fix. Convert to one object per line first."
   - "Schema inference samples a bounded number of records. A field that only appears late in a large file will be missing from the schema, and queries against it fail with a column-not-found error. Raise `schema_infer_max_rec` or supply the schema explicitly."
-  - "Nested objects become Arrow struct columns, addressed with dot notation. Genuinely dynamic JSON is better served by the JSON Functions ingredient."
+  - "Nested objects become Arrow struct columns, addressed with dot notation. JSON whose keys vary per row is better served by the JSON Functions ingredient."
 example: https://docs.rs/datafusion/latest/datafusion/prelude/struct.SessionContext.html#method.register_json
 ---
 

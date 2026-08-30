@@ -15,7 +15,7 @@ install: cargo add arrow-flight@58.4.0 --features flight-sql
 status: stable
 pitfalls:
   - "The arrow-flight major must match the arrow major DataFusion links. DataFusion 54 uses arrow 58.3, so use arrow-flight 58.x. DataFusion 55 uses arrow 59 and needs arrow-flight 59.x."
-  - "Most people reaching for this actually want Flight SQL Server, which implements the query endpoints for you. Writing raw Flight means implementing DoGet/GetFlightInfo by hand."
+  - "Most people reaching for this want Flight SQL Server, which implements the query endpoints for you. Writing raw Flight means implementing DoGet/GetFlightInfo by hand."
   - "The SQL types live behind the `flight-sql` feature and are absent by default, which reads as a missing module."
 example: https://github.com/apache/arrow-rs/tree/main/arrow-flight/examples
 ---
@@ -28,8 +28,8 @@ For the ordinary "let clients run SQL against my engine" case, take
 [Flight SQL Server](flight-sql-server.md); it depends on this crate and
 implements the endpoints already.
 
-The version pairing is the thing to get right, since `arrow-flight` follows
-arrow-rs versioning rather than DataFusion's:
+`arrow-flight` follows arrow-rs versioning, so pair it with the arrow major
+that DataFusion links:
 
 | DataFusion | arrow | arrow-flight |
 |------------|-------|--------------|

@@ -53,7 +53,7 @@ majors puts two incompatible copies of DataFusion in one dependency graph.
   - Pitfall: `file_extension` borrows its argument, so `JsonReadOptions::default().file_extension(&format!(\".{ext}\"))` fails to compile with a dropped-temporary error. Bind the string to a variable first.
   - Pitfall: This reads newline-delimited JSON, not a JSON array. A file containing `[{...},{...}]` will not parse. The error is `Expected JSON record to be an object, found Array`, which does not point at the fix. Convert to one object per line first.
   - Pitfall: Schema inference samples a bounded number of records. A field that only appears late in a large file will be missing from the schema, and queries against it fail with a column-not-found error. Raise `schema_infer_max_rec` or supply the schema explicitly.
-  - Pitfall: Nested objects become Arrow struct columns, addressed with dot notation. Genuinely dynamic JSON is better served by the JSON Functions ingredient.
+  - Pitfall: Nested objects become Arrow struct columns, addressed with dot notation. JSON whose keys vary per row is better served by the JSON Functions ingredient.
 - [JSON Functions](ingredients/json-functions.md): SQL functions for querying JSON held in string columns — `json_get`, `json_get_str`, `json_contains`, and the `->` operator.
   - When to use: JSON is stored as text inside a column and its shape varies per row, so it cannot be modelled as a fixed Arrow struct.
   - Install: `cargo add datafusion-functions-json@0.54.2`
@@ -84,7 +84,7 @@ majors puts two incompatible copies of DataFusion in one dependency graph.
   - When to use: Working with array-shaped scientific data — climate, satellite, genomics — that is already stored as Zarr.
   - DataFusion: 54 | Status: unpublished
   - Pitfall: Not published to crates.io. It must be a git dependency, which means no version pinning through Cargo's registry and no `cargo add <name>` shorthand.
-  - Pitfall: Zarr is N-dimensional; SQL tables are two-dimensional. How arrays are flattened into rows and columns is the thing to check before committing to it.
+  - Pitfall: Zarr is N-dimensional; SQL tables are two-dimensional. Check how the crate flattens array dimensions into rows and columns before building on it.
   - Pitfall: Verify which DataFusion version the current main branch targets before wiring it in — with no releases there is no version contract to rely on.
 
 ## Data Generation
@@ -140,7 +140,7 @@ majors puts two incompatible copies of DataFusion in one dependency graph.
   - Install: `cargo add arrow-flight@58.4.0 --features flight-sql`
   - DataFusion: 54 | Status: stable
   - Pitfall: The arrow-flight major must match the arrow major DataFusion links. DataFusion 54 uses arrow 58.3, so use arrow-flight 58.x. DataFusion 55 uses arrow 59 and needs arrow-flight 59.x.
-  - Pitfall: Most people reaching for this actually want Flight SQL Server, which implements the query endpoints for you. Writing raw Flight means implementing DoGet/GetFlightInfo by hand.
+  - Pitfall: Most people reaching for this want Flight SQL Server, which implements the query endpoints for you. Writing raw Flight means implementing DoGet/GetFlightInfo by hand.
   - Pitfall: The SQL types live behind the `flight-sql` feature and are absent by default, which reads as a missing module.
 - [Flight SQL Server](ingredients/flight-sql-server.md): Serve DataFusion over Arrow Flight SQL, so JDBC/ODBC/ADBC clients can connect to it as a database.
   - When to use: You want BI tools or remote clients to query your engine over a network, rather than embedding it in a single process.

@@ -10,7 +10,7 @@ repo: https://github.com/datafusion-contrib/arrow-zarr
 status: unpublished
 pitfalls:
   - "Not published to crates.io. It must be a git dependency, which means no version pinning through Cargo's registry and no `cargo add <name>` shorthand."
-  - "Zarr is N-dimensional; SQL tables are two-dimensional. How arrays are flattened into rows and columns is the thing to check before committing to it."
+  - "Zarr is N-dimensional; SQL tables are two-dimensional. Check how the crate flattens array dimensions into rows and columns before building on it."
   - "Verify which DataFusion version the current main branch targets before wiring it in — with no releases there is no version contract to rely on."
 example: https://github.com/datafusion-contrib/arrow-zarr
 ---

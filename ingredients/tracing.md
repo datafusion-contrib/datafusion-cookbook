@@ -41,7 +41,7 @@ let ctx = SessionContext::new_with_state(session_state);
 
 `record_metrics(true)` captures DataFusion's own per-operator metrics — output
 row counts and elapsed time — onto the spans, which is usually what a
-"show query execution time" requirement actually needs.
+"show query execution time" requirement needs.
 
 For a quick answer without a collector, `EXPLAIN ANALYZE` already reports
 per-operator metrics to the terminal and needs no dependency at all.

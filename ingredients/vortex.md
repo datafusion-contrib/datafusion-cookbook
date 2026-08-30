@@ -22,6 +22,6 @@ Vortex is a columnar file format built around cascading compression schemes
 that stay queryable while compressed, so filters and projections can run
 against encoded data rather than requiring a decode first.
 
-Take it when profiling shows Parquet scan time dominating and you own the whole
-pipeline. Keep [Parquet](parquet.md) when files cross a system boundary — the
-interchange story is the deciding factor far more often than raw scan speed.
+Take it when profiling shows Parquet scan time dominating and you own both
+writer and reader. Keep [Parquet](parquet.md) when the files cross a system
+boundary.

@@ -30,7 +30,7 @@ the ingredients assembled into something that runs.
 
 Each ingredient in [`ingredients/`](ingredients/) records what it is, when to
 reach for it, the exact crate version this cookbook is tested against, and the
-mistakes people actually make with it. The menu below and `llms.txt` are both
+mistakes people make with it. The menu below and `llms.txt` are both
 generated from those files by [`dev/generate.py`](dev/generate.py) — edit the
 ingredient, not the generated output.
 

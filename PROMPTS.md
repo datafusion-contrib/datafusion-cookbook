@@ -4,9 +4,7 @@ This file contains example prompts for interesting systems you may wish to try
 out.
 
 Each prompt has **acceptance criteria**: the concrete things the built system
-must do. They exist so that runs can be scored rather than admired — see
-[TESTING.md](TESTING.md). A prompt without acceptance criteria cannot be
-evaluated, so add them when you add a prompt.
+must do. [TESTING.md](TESTING.md) scores runs against them.
 
 ## Test data
 
@@ -20,7 +18,7 @@ Publicly accessible, no credentials, verified reachable:
 
 Start with the NYC taxi file. It is small enough to download in seconds and
 has a mix of types — timestamps, decimals, integers, strings — that exercises
-display formatting properly.
+display formatting.
 
 For generated multi-table data instead, see the
 [TPC-H ingredient](ingredients/tpch.md).
@@ -71,7 +69,6 @@ yadb> select tpep_pickup_datetime, passenger_count, total_amount
 
 [`recipes/duckdb-style-cli`](recipes/duckdb-style-cli/) is a build of this
 prompt that meets all seven criteria, in ~250 lines and three dependencies.
-Its README records which criteria are met and what building it cost.
 
 ### Notes for whoever runs this
 
@@ -85,8 +82,8 @@ Two things reliably go wrong, both recorded as pitfalls in the ingredients:
   `prettytable-rs` — when DataFusion already re-exports Arrow's formatter.
 
 Note also that [`datafusion-cli`](ingredients/datafusion-cli.md) already
-satisfies most of this prompt. A good answer either builds on what it does or
-says why it is starting fresh.
+satisfies most of this prompt, so record whether the run reuses it, reads its
+source, or starts from an empty `main`.
 
 ### Optional extensions
 
@@ -113,14 +110,13 @@ says why it is starting fresh.
 
 The relevant ingredient is
 [PostgreSQL Wire Protocol](ingredients/postgres-wire.md). Criterion 3 is the
-interesting one: plain queries work without it, but `\dt` needs
-`setup_pg_catalog` to have been called. It is a good test of whether pitfalls
-in the ingredient files are actually reaching the agent.
+one that catches people: plain queries work without `setup_pg_catalog`, but
+`\dt` returns nothing until it has been called.
 
 ---
 
 ## Adding a prompt
 
-Keep prompts to things someone would genuinely want built, and write the
+Keep prompts to things someone would want built, and write the
 acceptance criteria first. If you cannot state how you would check the result,
 the prompt is not ready.
