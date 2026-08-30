@@ -19,6 +19,6 @@ TODO
 
 ## Notes
 
-- Used by the "TPC benchmark data in Vortex format" prompt in
-  [PROMPTS.md](../PROMPTS.md).
+- Used by the [vortex-tpch](../prompts/vortex-tpch.md) and
+  [vortex-cli](../prompts/vortex-cli.md) prompts.
 - TODO: identify the DataFusion integration crate and pin a version.

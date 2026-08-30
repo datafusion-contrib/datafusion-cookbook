@@ -24,6 +24,5 @@ TODO: generate data and check the expected files exist (e.g.
 
 ## Notes
 
-- Used by the "TPC benchmark data in Vortex format" prompt in
-  [PROMPTS.md](../PROMPTS.md).
+- Used by the [vortex-tpch](../prompts/vortex-tpch.md) prompt.
 - TODO: pin a tpchgen-cli version; confirm TPC-DS support status.

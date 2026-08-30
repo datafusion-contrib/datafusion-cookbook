@@ -5,7 +5,7 @@ Instructions for coding agents building custom analytic systems from
 
 ## How to use this repo
 
-1. Start from the user's prompt (examples in [PROMPTS.md](PROMPTS.md)).
+1. Start from the user's prompt (examples in [prompts/](prompts/)).
 2. Scaffold the base project using [recipes/base.md](recipes/base.md).
 3. Pick the recipes from `recipes/` that match the requested features.
 4. After applying each recipe, run its **Verify** step before moving on.
