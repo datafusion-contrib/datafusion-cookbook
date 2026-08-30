@@ -14,50 +14,31 @@ Example prompts:
 
 See more prompts in the [PROMPTS.md](PROMPTS.md) file.
 
+Agents (and their operators) should start with [AGENTS.md](AGENTS.md).
+
 ## Recipe index (Menu)
 
-| Recipe | Provides |
-|--------|----------|
-| [base](recipes/base.md) | New cargo project with DataFusion |
-<!-- Add one row per verified recipe. Do not list unverified recipes. -->
+Every project starts with the [base](recipes/base.md) recipe, then adds
+ingredients from the menu below.
 
-# Menu Options
+| Recipe | Category | Provides | Verified |
+|--------|----------|----------|:--------:|
+| [base](recipes/base.md) | Base | New cargo project with DataFusion | ✅ |
+| [duckdb](recipes/duckdb.md) | REPL / CLI | DuckDB style interactive SQL CLI | TODO |
+| [parquet](recipes/parquet.md) | File Formats | Read Parquet files (built in to DataFusion) | TODO |
+| [json](recipes/json.md) | File Formats | Read newline-delimited JSON files (built in to DataFusion) | TODO |
+| [vortex](recipes/vortex.md) | File Formats | Read Vortex files | TODO |
+| [zarr](recipes/zarr.md) | File Formats | Read Zarr data | TODO |
+| [tpch](recipes/tpch.md) | Data Generation | Generate TPC-H / TPC-DS benchmark datasets | TODO |
 
-## Base
+Future menu items: semi-structured data (Variant), observability
+(datafusion-tracing / OpenTelemetry), connectors (PostgreSQL via
+datafusion-table-providers), wire transport (Arrow Flight, Flight SQL,
+ADBC, Postgres wire protocol).
 
-Every project should start with the base recipe to build a project scaffold with DataFusion.
+## Adding a new recipe
 
-| Name | Description                        | Required Dependency | Install / Usage Instructions |
-|------|:-----------------------------------|---------------------|------------------------------|
-| base | Scaffold a new DataFusion project  | None                | [base.md](recipes/base.md)   |
-
-## Additional Ingredients
-
-### REPL Scaffolding
-
-| Format | Description      | Required Dependency | Install / Usage Instructions |   |   |
-|--------|:-----------------|---------------------|------------------------------|---|---|
-| TODO   | Basic CLI / REPL |                     | TODO                         |   |   |
-
-## Data Generation
-
-| Format       | Description                                    | Required Dependency                   | Install / Usage Instructions |   |   |
-|--------------|:-----------------------------------------------|---------------------------------------|------------------------------|---|---|
-| TPC-H/TPC-DS | Fast generation of standard benchmark datasets | https://github.com/datafusion-contrib/tpcgen-rs | TODO                         |   |   |
-
-
-| Format  | Description | Required Dependency          | Install / Usage Instructions |   |   |
-|---------|:------------|------------------------------|------------------------------|---|---|
-| Parquet |             | None (built with DataFusion) |                              |   |   |
-| JSON    |             | None (built with DataFusion) |                              |   |   |
-| Vortex  |             | TODO                         |                              |   |   |
-| Zarr    |             | TODO                         |                              |   |   |
-
-
-
-Future items to add to the menu:
-
-
-
-# Instructions for adding a new recipe:
-TODO
+Copy [recipes/TEMPLATE.md](recipes/TEMPLATE.md) and follow the
+instructions in it: fill in every section, add an example prompt to
+[PROMPTS.md](PROMPTS.md), and add a row to the index above. Mark the
+recipe Verified only once its Verify step passes as written.

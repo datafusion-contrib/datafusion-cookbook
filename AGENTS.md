@@ -19,7 +19,7 @@ See the [README.md](README.md) for a table of verified recipes.
 ## Adding a recipe
 
 Copy [recipes/TEMPLATE.md](recipes/TEMPLATE.md), fill in every section,
-verify it works, then add a row to the index above.
+verify it works, then add a row to the index in [README.md](README.md).
 
 ## Rules
 

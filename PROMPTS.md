@@ -36,3 +36,40 @@ Features:
 
 Additional potential options:
 1. Add metrics to the CLI to show query execution time and resource usage such as memory, CPU and network bandwidth usage
+
+## "TPC benchmark data in Vortex format"
+
+We are making a command line tool that generates TPC-H and TPC-DS
+benchmark data as Vortex format files, for a user specified scale
+factor and output directory.
+
+Example usage:
+
+```shell
+tpc2vortex --benchmark tpch --scale-factor 1 --output-dir ./data
+```
+
+Example output:
+
+```
+Created ./data/nation.vortex (25 rows)
+Created ./data/region.vortex (5 rows)
+Created ./data/customer.vortex (150000 rows)
+...
+Created ./data/lineitem.vortex (6001215 rows)
+Generated TPC-H scale factor 1 in 12.3s
+```
+
+Features:
+1. Generate TPC-H data at any scale factor
+2. Generate TPC-DS data at any scale factor
+3. Write each table as a Vortex file
+4. Report per-table row counts and total generation time
+
+Additional potential options:
+1. Verify the output by querying the generated files with DataFusion and
+   checking row counts against the expected values for the scale factor
+2. Parallel generation of tables
+
+Recipes: [base](recipes/base.md), [tpch](recipes/tpch.md),
+[vortex](recipes/vortex.md)
