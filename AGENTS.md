@@ -25,10 +25,7 @@ by category or arrow version without opening each file.
 
 ## Adding a recipe
 
-See [CONTRIBUTING.md](CONTRIBUTING.md): copy
-[recipes/TEMPLATE.md](recipes/TEMPLATE.md), fill in the frontmatter
-and every section, verify it works, then regenerate the index tables
-with `python3 scripts/regen_index.py`.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Rules
 
