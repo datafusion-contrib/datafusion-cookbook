@@ -20,7 +20,6 @@ system on. They also illustrate the types of systems that can be built easily:
 | Prompt | Builds | Uses Recipes |
 |--------|--------|--------------|
 | [duckdb](prompts/duckdb.md) | DuckDB style interactive SQL CLI | base, repl, parquet |
-| [vortex-cli](prompts/vortex-cli.md) | datafusion-cli style SQL CLI that reads/writes Vortex files | base, cli, repl, parquet, vortex |
 | [vortex-tpch](prompts/vortex-tpch.md) | TPC-H data generator writing Vortex files | base, cli, tpch, vortex |
 <!-- END GENERATED: prompt-index -->
 

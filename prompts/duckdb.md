@@ -37,6 +37,7 @@ yadb> select * from parquet_scan('data.parquet') limit 5;
 1. Read Parquet files from local or remote systems
 2. Support SQL queries (SELECT, WHERE, LIMIT)
 3. Display results in a tabular format
+4. Support vortex files (using the vortex recipe)
 
 ## Additional potential options
 

@@ -83,4 +83,8 @@ Generate data and check the expected files exist (e.g.
   `1..=n` — and generate parts in parallel. To still produce one output
   file per table, feed the parts to a single writer in order (chain the
   iterators, or have generator threads send batches over a channel to the
-  writer), which is how `tpchgen-cli` does it.
+  writer). This is how `tpchgen-cli` does it — see [`generate_in_chunks`]
+  (parallel `Source`s → ordered channel → one blocking writer task,
+  with buffer recycling).
+
+[`generate_in_chunks`]: https://github.com/datafusion-contrib/tpcgen-rs/blob/v2.0.2/tpchgen-cli/src/generate.rs#L51
