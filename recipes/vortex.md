@@ -21,12 +21,6 @@ Required arrow / DataFusion versions per vortex release (verified
 | 0.67.0 – 0.85.0 (latest) | 58 | 53.0.0 – 54.0.0 |
 | 0.65.0 – 0.66.0 (this recipe) | 57 | 51.0.0 – 52.0.0 |
 
-No vortex release supports arrow 59, so the base recipe's default
-`datafusion 55` is **incompatible** with every vortex version —
-downgrade DataFusion per the table, or drop it if unused. This recipe
-pins 0.65.0 (arrow 57) because that is what the tpchgen recipe pairs
-with; the code below is verified against 0.65.0 only.
-
 ## Code
 
 Write arrow `RecordBatch`es to a `.vortex` file and read the row count
@@ -92,9 +86,7 @@ Write a small RecordBatch through `write_vortex_file`, then confirm
 
 ## Notes
 
-- Used by the [vortex-tpch](../prompts/vortex-tpch.md) and
-  [vortex-cli](../prompts/vortex-cli.md) prompts.
-- The vortex API churns between versions — this code is verified against
+- The vortex API changes between versions — this code is verified against
   0.65.0 exactly; do not trust docs or memory for other versions.
 - Full scan (not just footer count): `file.scan()?.into_array_iter(&runtime)`;
   DataFusion table provider lives in the separate `vortex-datafusion` crate
