@@ -7,6 +7,12 @@ data.
 
 TODO
 
+## Versions
+
+TBD — once an integration crate is identified, record which arrow /
+DataFusion majors it needs (see the version table in
+[base](../recipes/base.md)).
+
 ## Code
 
 TODO

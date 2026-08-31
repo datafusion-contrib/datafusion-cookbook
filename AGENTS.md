@@ -8,6 +8,8 @@ Instructions for coding agents building custom analytic systems from
 1. Start from the user's prompt (examples in [prompts/](prompts/)).
 2. Scaffold the base project using [recipes/base.md](recipes/base.md).
 3. Pick the recipes from `recipes/` that match the requested features.
+   (`future-recipes/` holds incomplete recipes — use them as starting
+   points only, and expect to fill in gaps.)
 4. After applying each recipe, run its **Verify** step before moving on.
    If verification fails, fix the issue before adding more recipes.
 5. Build in `workdir/<project_name>/` (gitignored scratch space).
@@ -18,7 +20,8 @@ See the [README.md](README.md) for a table of verified recipes.
 
 ## Adding a recipe
 
-Copy [recipes/TEMPLATE.md](recipes/TEMPLATE.md), fill in every section,
+See [CONTRIBUTING.md](CONTRIBUTING.md): copy
+[recipes/TEMPLATE.md](recipes/TEMPLATE.md), fill in every section,
 verify it works, then add a row to the index in [README.md](README.md).
 
 ## Rules

@@ -9,7 +9,7 @@ We aim
 ## Metrics: 
 
 Time to Awesome (TM): Due to Paul Dix (TODO find link): how quickly is the system 
-build and working that awesome and satisfies the example queries of the prompt.
+builds and satisfies the example queries of the prompt.
 
 Specifically
 1. How fast (wallclock time) can the system create the first version of the system that satisfies the prompt?
@@ -19,6 +19,7 @@ Specifically
 
 ## Methodology:
 
+1. Remove any tool specific memory (e.g. `~/.claude/projects/software-datafusion-cookbook/memory/`) so past runs do not affect current run
 1. Use the specified coding tool and the prompt in the repository
 2. Evaluate the system built based on the prompt
 3. File any issues or pull requests to improve the system or the prompt, or the upstream repositories that are used to build the system.

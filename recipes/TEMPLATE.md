@@ -15,6 +15,13 @@ One-sentence description of what this adds.
 
 Exact `cargo add` commands, with versions.
 
+## Versions
+
+Table mapping this recipe's crate versions to the arrow (and compatible
+DataFusion) major versions they require. All arrow-based crates in a
+project must share one arrow major version — see the master
+cross-recipe table in [base](base.md).
+
 ## Code
 
 Minimal working snippet(s) and where they go.

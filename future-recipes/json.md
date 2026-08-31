@@ -5,7 +5,12 @@ DataFusion — no extra dependencies.
 
 ## Dependencies
 
-None (included in the [base](base.md) recipe).
+None (included in the [base](../recipes/base.md) recipe).
+
+## Versions
+
+Adds no arrow-based crates; works with any DataFusion version — see the
+version table in [base](../recipes/base.md).
 
 ## Code
 
