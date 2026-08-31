@@ -12,24 +12,20 @@ ClickBench benchmarks.
 
 ## Example usage
 
-(TODO find a publicly accessible dataset to read from)
+Here is how to run the CLI and query a remote Parquet file (the ClickBench `hits.parquet` file):
 
 ```sql
-yadb> select * from parquet_scan('data.parquet') limit 5;
+yadb> select count(*) from parquet_scan('https://datasets.clickhouse.com/hits_compatible/hits.parquet') limit 5;
 ```
 
 ## Example output
 
 ```
-+----+-------+---------------------+
-| id | name  | timestamp           |
-+----+-------+---------------------+
-| 1  | Alice | 2024-01-01 12:00:00 |
-| 2  | Bob   | 2024-01-02 13:00:00 |
-| 3  | Carol | 2024-01-03 14:00:00 |
-| 4  | Dave  | 2024-01-04 15:00:00 |
-| 5  | Eve   | 2024-01-05 16:00:00 |
-+----+-------+---------------------+
++----------+
+| count(*) |
++----------+
+| 100000000  |
++----------+
 ```
 
 ## Features

@@ -5,7 +5,7 @@ provides: Read and write Vortex files
 status: verified
 verified: 2026-08-31
 arrow_major: 57
-crates: vortex@0.65.0
+crates: vortex@0.65.0, arrow@57
 datafusion: 51.0.0 - 52.0.0
 ---
 
@@ -19,8 +19,12 @@ See the [Vortex DataFusion integration guide](https://docs.vortex.dev/developer-
 ## Dependencies
 
 ```shell
-cargo add vortex@0.65.0
+cargo add vortex@0.65.0 arrow@57
 ```
+
+Vortex uses `arrow::datatypes::SchemaRef` and `arrow::array::RecordBatch`
+directly, so `arrow` must be a direct dependency — pin it to the same arrow
+major as vortex (57 here) so cargo resolves a single copy.
 
 ## Versions
 

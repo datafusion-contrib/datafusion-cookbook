@@ -52,18 +52,28 @@ for batch in batches { /* RecordBatch */ }
 
 ## Verify
 
+If the project uses this recipe's library code, verify with the project
+itself: generate scale factor 1 and check every table's row count
+against these exact values. No extra tooling needed.
+
+| table    | SF 1 rows |
+|----------|----------:|
+| nation   |        25 |
+| region   |         5 |
+| supplier |    10,000 |
+| customer |   150,000 |
+| part     |   200,000 |
+| partsupp |   800,000 |
+| orders   | 1,500,000 |
+| lineitem | 6,001,215 |
+
+Counts scale linearly with scale factor except nation and region, which
+are always 25 and 5; lineitem is approximate per spec, but 6,001,215 is
+the exact SF 1 value tpchgen produces.
+
 ```shell
 cargo install tpchgen-cli@2.0.2
 ```
-
-Generate scale factor 1 data as Parquet:
-
-```shell
-tpchgen-cli --scale-factor 1 --format parquet
-```
-
-Generate data and check the expected files exist (e.g.
-`lineitem.parquet`) and row counts match the scale factor.
 
 ## Notes
 
@@ -72,11 +82,6 @@ Generate data and check the expected files exist (e.g.
   DataFusion version can read.
 - Output file naming (tpchgen-cli convention): singular table name except
   `orders` — `OrderGenerator`/`OrderArrow` write to an `orders` file.
-- Expected row counts at scale factor 1 (scale linearly, except nation=25
-  and region=5 always): nation 25, region 5, supplier 10,000,
-  customer 150,000, part 200,000, partsupp 800,000, orders 1,500,000,
-  lineitem 6,001,215 (lineitem is approximate per spec; 6,001,215 is the
-  exact SF 1 value tpchgen produces).
 - Parallelizing: one thread per table caps out quickly because lineitem
   dominates generation time. For real speedups, split
   lineitem/orders using `part`/`part_count` — `new(sf, i, n)` for `i` in

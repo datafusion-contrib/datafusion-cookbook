@@ -23,8 +23,10 @@ mkdir -p workdir
 cd workdir
 cargo new <project_name> --bin
 cd <project_name>
-cargo add datafusion@55.0.0
+cargo add datafusion@55.0.0   # SKIP this line if nothing is queried — see Versions
 ```
+
+**Before adding DataFusion, check the project actually runs queries.**
 
 ## Verify
 
