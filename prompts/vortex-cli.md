@@ -1,3 +1,9 @@
+---
+name: vortex-cli
+builds: datafusion-cli style SQL CLI that reads/writes Vortex files
+recipes: [base, cli, repl, parquet, vortex]
+---
+
 # Vortex CLI
 
 We are making an interactive SQL command line tool like
@@ -35,17 +41,10 @@ vortex-cli> select * from 'data.vortex' limit 5;
    `datafusion-cli`
 2. Read the file formats built in to DataFusion (Parquet, CSV, JSON)
 3. Read Vortex files by querying them directly by path
-4. Write Vortex files with `COPY ... TO ...`
 
 ## Additional potential options
 
 1. `CREATE EXTERNAL TABLE ... STORED AS vortex`
-2. Read files from object storage (S3, GCS, ...) as well as the local
+2. Write Vortex files with `COPY ... TO ...`
+3. Read files from object storage (S3, GCS, ...) as well as the local
    filesystem
-3. Convert between formats (e.g. Parquet ↔ Vortex) and compare file
-   sizes and query times
-
-## Recipes
-
-[base](../recipes/base.md), [repl](../future-recipes/repl.md),
-[parquet](../future-recipes/parquet.md), [vortex](../recipes/vortex.md)

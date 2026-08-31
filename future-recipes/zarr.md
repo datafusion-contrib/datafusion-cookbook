@@ -1,3 +1,13 @@
+---
+name: zarr
+category: file-formats
+provides: Read Zarr data
+status: blocked
+status_note: integration crate TBD
+arrow_major: TBD
+crates: TBD
+---
+
 # Zarr
 
 Read and query [Zarr](https://zarr.dev/) chunked N-dimensional array

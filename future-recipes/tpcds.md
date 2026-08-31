@@ -1,3 +1,14 @@
+---
+name: tpcds
+category: data-generation
+provides: Generate TPC-DS benchmark datasets
+status: blocked
+status_note: "blocked: `tpcdsgen-arrow` is alpha and arrow 59 only (no vortex support)"
+arrow_major: 59
+crates: tpcdsgen@0.1.0-alpha.1, tpcdsgen-arrow@0.1.0-alpha.1
+datafusion: 55.0.0
+---
+
 # TPC-DS data generation
 
 Quickly generate standard TPC-DS datasets. TPC-DS is NOT supported by

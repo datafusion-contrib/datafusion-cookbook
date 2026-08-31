@@ -1,3 +1,9 @@
+---
+name: vortex-tpch
+builds: TPC-H data generator writing Vortex files
+recipes: [base, cli, tpch, vortex]
+---
+
 # TPC benchmark data in Vortex format
 
 We are making a command line tool to generate TPC-H benchmark data as Vortex
@@ -36,12 +42,6 @@ Generated TPC-H scale factor 1 in 12.3s
 
 1. Multi-part generation of tables
 2. Parallel generation of tables in multiple threads
-
-
-## Recipes
-
-[base](../recipes/base.md), [tpch](../recipes/tpch.md),
-[vortex](../recipes/vortex.md)
 
 ## Future work:
 2. Generate TPC-DS data (when TPCDS generation is published)

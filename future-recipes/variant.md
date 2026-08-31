@@ -1,3 +1,13 @@
+---
+name: variant
+category: semi-structured-data
+provides: Store and query JSON-like data as Variant
+status: draft
+status_note: not yet written
+arrow_major: TBD
+crates: TBD
+---
+
 # Variant
 
 Store and query semi-structured (JSON-like) data using the

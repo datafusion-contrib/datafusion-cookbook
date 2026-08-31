@@ -1,3 +1,13 @@
+---
+name: repl
+category: repl-cli
+provides: Interactive SQL REPL
+status: draft
+status_note: not yet verified
+arrow_major: TBD
+crates: TBD
+---
+
 # REPL
 
 An interactive SQL REPL (read-eval-print loop): a prompt that reads a

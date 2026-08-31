@@ -1,3 +1,13 @@
+---
+name: postgres
+category: connectors
+provides: Query PostgreSQL tables via datafusion-table-providers
+status: draft
+status_note: not yet written
+arrow_major: TBD
+crates: TBD
+---
+
 # PostgreSQL connector
 
 Query tables that live in a PostgreSQL database from DataFusion SQL,

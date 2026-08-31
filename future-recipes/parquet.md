@@ -1,3 +1,13 @@
+---
+name: parquet
+category: file-formats
+provides: Read Parquet files (built in to DataFusion)
+status: draft
+status_note: not yet verified
+arrow_major: any
+crates: none
+---
+
 # Parquet
 
 Read and query Apache Parquet files. Built into DataFusion — no extra

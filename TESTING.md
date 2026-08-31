@@ -20,9 +20,20 @@ Specifically
 ## Methodology:
 
 1. Remove any tool specific memory (e.g. `~/.claude/projects/software-datafusion-cookbook/memory/`) so past runs do not affect current run
+1. Delete `workdir/` (it is gitignored) so leftover projects and generated data from past runs do not affect the current run
 1. Use the specified coding tool and the prompt in the repository
 2. Evaluate the system built based on the prompt
 3. File any issues or pull requests to improve the system or the prompt, or the upstream repositories that are used to build the system.
+
+
+You can use the following template to test / improve the repository:
+```text
+We are testing the recipes in this repository for how quickly a coding agent can
+turn them into a working system
+
+Please run the prompt below, complete the tool requested, and then list any
+things that could be done to make the next run faster and more efficient. 
+```
 
 ## Current Results
 

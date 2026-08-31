@@ -1,3 +1,13 @@
+---
+name: base
+category: base
+provides: New cargo project with DataFusion
+status: verified
+verified: 2026-08-31
+arrow_major: any
+crates: datafusion@55.0.0 (default pin; see Versions)
+---
+
 # Base
 
 Create a new cargo project with the core DataFusion dependency.
@@ -68,5 +78,3 @@ curl -s -A "cookbook" \
   "https://crates.io/api/v1/crates/<crate>/<version>/dependencies" \
   | grep -o '"crate_id":"arrow[^,]*,"req":"[^"]*"'
 ```
-
-## Notes

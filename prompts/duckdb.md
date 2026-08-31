@@ -1,3 +1,9 @@
+---
+name: duckdb
+builds: DuckDB style interactive SQL CLI
+recipes: [base, repl, parquet]
+---
+
 # DuckDB style CLI
 
 We are making a duckdb style CLI from Apache 2 licensed code, with
@@ -36,8 +42,3 @@ yadb> select * from parquet_scan('data.parquet') limit 5;
 
 1. Add metrics to the CLI to show query execution time and resource
    usage such as memory, CPU and network bandwidth usage
-
-## Recipes
-
-[base](../recipes/base.md), [repl](../future-recipes/repl.md),
-[parquet](../future-recipes/parquet.md)

@@ -16,13 +16,19 @@ Instructions for coding agents building custom analytic systems from
 
 ## Recipe index
 
-See the [README.md](README.md) for a table of verified recipes.
+See the [README.md](README.md) for tables of prompts and verified
+recipes. 
+
+Every recipe and prompt also carries YAML frontmatter (`name`, `category`,
+`status`, `arrow_major`, `crates`, `datafusion`, ...) — grep it to find recipes
+by category or arrow version without opening each file.
 
 ## Adding a recipe
 
 See [CONTRIBUTING.md](CONTRIBUTING.md): copy
-[recipes/TEMPLATE.md](recipes/TEMPLATE.md), fill in every section,
-verify it works, then add a row to the index in [README.md](README.md).
+[recipes/TEMPLATE.md](recipes/TEMPLATE.md), fill in the frontmatter
+and every section, verify it works, then regenerate the index tables
+with `python3 scripts/regen_index.py`.
 
 ## Rules
 

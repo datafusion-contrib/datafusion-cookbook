@@ -15,22 +15,29 @@ Agents and their operators should start with [AGENTS.md](AGENTS.md).
 Prompts describe interesting systems you may wish to build ot base your own
 system on. They also illustrate the types of systems that can be built easily:
 
+<!-- Generated from prompt frontmatter by scripts/regen_index.py; do not edit by hand -->
+<!-- BEGIN GENERATED: prompt-index -->
 | Prompt | Builds | Uses Recipes |
 |--------|--------|--------------|
 | [duckdb](prompts/duckdb.md) | DuckDB style interactive SQL CLI | base, repl, parquet |
-| [vortex-tpch](prompts/vortex-tpch.md) | TPC-H data generator writing Vortex files | base, tpch, vortex |
-| [vortex-cli](prompts/vortex-cli.md) | datafusion-cli style SQL CLI that reads/writes Vortex files | base, repl, parquet, vortex |
+| [vortex-cli](prompts/vortex-cli.md) | datafusion-cli style SQL CLI that reads/writes Vortex files | base, cli, repl, parquet, vortex |
+| [vortex-tpch](prompts/vortex-tpch.md) | TPC-H data generator writing Vortex files | base, cli, tpch, vortex |
+<!-- END GENERATED: prompt-index -->
 
 ## Recipes (Menu)
 
 Every project starts with the [base](recipes/base.md) recipe, then adds
 ingredients from the menu below.
 
+<!-- Generated from recipe frontmatter by scripts/regen_index.py; do not edit by hand -->
+<!-- BEGIN GENERATED: recipe-index -->
 | Recipe | Category | Provides | Verified |
-|--------|----------|----------|:--------:|
+|--------|----------|----------|----------|
 | [base](recipes/base.md) | Base | New cargo project with DataFusion | ✅ |
+| [cli](recipes/cli.md) | REPL / CLI | Command line argument parsing with clap | ✅ |
 | [vortex](recipes/vortex.md) | File Formats | Read and write Vortex files | ✅ |
-| [tpch](recipes/tpch.md) | Data Generation | Generate TPC-H benchmark datasets | TODO |
+| [tpch](recipes/tpch.md) | Data Generation | Generate TPC-H benchmark datasets | ✅ |
+<!-- END GENERATED: recipe-index -->
 
 ## Future recipes
 

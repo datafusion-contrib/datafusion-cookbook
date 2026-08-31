@@ -1,11 +1,22 @@
 <!--
 This file contains the structure that new prompts should follow
 
-Any new prompt should have a row in the prompt index in [README.md](../README.md)
+The prompt index tables in [README.md](../README.md) and
+[README.md](README.md) are generated from the frontmatter below by
+`python3 scripts/regen_index.py`; run that script instead of editing
+the tables by hand.
 
-Note that the prompt purposely DOES NOT include Links to the recipes 
-to ensure that the recipes are discoverable on their own.
+Note that the prompt BODY purposely DOES NOT include links to the
+recipes, to ensure that the recipes are discoverable on their own; the
+recipes the prompt exercises are recorded only in the `recipes:`
+frontmatter field.
 -->
+
+---
+name: <kebab-case-slug>
+builds: <one line shown in the prompt index>
+recipes: [base, <recipe>, ...]
+---
 
 # <System name>
 

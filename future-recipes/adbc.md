@@ -1,3 +1,13 @@
+---
+name: adbc
+category: wire-transport
+provides: Arrow-native database connectivity (ADBC)
+status: draft
+status_note: not yet written
+arrow_major: TBD
+crates: TBD
+---
+
 # ADBC
 
 Connect to databases through

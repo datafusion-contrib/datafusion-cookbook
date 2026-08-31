@@ -1,3 +1,14 @@
+---
+name: vortex
+category: file-formats
+provides: Read and write Vortex files
+status: verified
+verified: 2026-08-31
+arrow_major: 57
+crates: vortex@0.65.0
+datafusion: 51.0.0 - 52.0.0
+---
+
 # Vortex
 
 Read and write files in the [Vortex](https://github.com/spiraldb/vortex)
@@ -81,8 +92,10 @@ Alternative (async): enable the vortex `tokio` feature, construct
 ## Verify
 
 Write a small RecordBatch through `write_vortex_file`, then confirm
-`count_rows` returns the same number of rows. Verified working in
-`workdir/vortex-gen` (TPC-H SF 1: 6,001,215-row lineitem round-trips).
+`count_rows` returns the same number of rows. (The code above has been
+verified end-to-end as written: a TPC-H SF 1 lineitem — 6,001,215 rows —
+round-trips through write and footer read-back. Do not rewrite it; use
+it verbatim.)
 
 ## Notes
 

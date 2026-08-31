@@ -1,3 +1,13 @@
+---
+name: json
+category: file-formats
+provides: Read newline-delimited JSON files (built in to DataFusion)
+status: draft
+status_note: not yet verified
+arrow_major: any
+crates: none
+---
+
 # JSON
 
 Read and query newline-delimited JSON (NDJSON) files. Built into

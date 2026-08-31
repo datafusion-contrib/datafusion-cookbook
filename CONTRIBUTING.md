@@ -14,12 +14,15 @@ Good places to start:
 
 ## Adding a new recipe or prompt
 
-Copy [recipes/TEMPLATE.md](recipes/TEMPLATE.md) or
-[prompts/TEMPLATE.md](prompts/TEMPLATE.md) and follow the instructions
-in it: fill in every section and add a row to the matching index in
-[README.md](README.md). Mark a recipe Verified only once its Verify
-step passes as written. Incomplete recipes belong in
-[future-recipes/](future-recipes/) until they verify.
+1. Copy [recipes/TEMPLATE.md](recipes/TEMPLATE.md) or
+[prompts/TEMPLATE.md](prompts/TEMPLATE.md)
+2. Fill in the template
+3. Regenerate the index tables with `python3 scripts/regen_index.py`
+
+Set `status: verified` only once the recipe's Verify step passes as written.
+Incomplete recipes belong in [future-recipes/](future-recipes/) until they
+verify.
+
 
 ## License
 

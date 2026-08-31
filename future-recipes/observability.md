@@ -1,3 +1,13 @@
+---
+name: observability
+category: observability
+provides: Trace queries with datafusion-tracing / OpenTelemetry
+status: draft
+status_note: not yet written
+arrow_major: TBD
+crates: TBD
+---
+
 # Observability
 
 Instrument a DataFusion application with

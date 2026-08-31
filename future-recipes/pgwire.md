@@ -1,3 +1,13 @@
+---
+name: pgwire
+category: wire-transport
+provides: Serve any Postgres client via the Postgres wire protocol
+status: draft
+status_note: not yet written
+arrow_major: TBD
+crates: TBD
+---
+
 # Postgres wire protocol
 
 Expose a DataFusion engine over the PostgreSQL wire protocol (e.g. via

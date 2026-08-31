@@ -1,3 +1,13 @@
+---
+name: arrow-version-conversion
+category: interop
+provides: Convert RecordBatches between arrow versions via the C Data interface
+status: draft
+status_note: not yet written
+arrow_major: any
+crates: TBD
+---
+
 # Arrow version conversion
 
 Convert record batches and arrow arrays between different arrow versions, 

@@ -1,3 +1,13 @@
+---
+name: flight-sql
+category: wire-transport
+provides: Serve SQL to JDBC/ODBC/ADBC clients via Flight SQL
+status: draft
+status_note: not yet written
+arrow_major: TBD
+crates: TBD
+---
+
 # Flight SQL
 
 Expose a DataFusion engine as an

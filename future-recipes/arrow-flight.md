@@ -1,3 +1,13 @@
+---
+name: arrow-flight
+category: wire-transport
+provides: Stream Arrow data over gRPC with Arrow Flight
+status: draft
+status_note: not yet written
+arrow_major: TBD
+crates: TBD
+---
+
 # Arrow Flight
 
 Send and receive Arrow data over the network with
