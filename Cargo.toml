@@ -1,2 +1,0 @@
-[workspace]
-members = ["content/docs/s3", "content/docs/s3-custom-endpoint", "content/docs/s3-globbing", "content/docs/s3-sdk-credentials"]
