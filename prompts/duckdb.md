@@ -24,7 +24,7 @@ yadb> select count(*) from parquet_scan('https://datasets.clickhouse.com/hits_co
 +----------+
 | count(*) |
 +----------+
-| 100000000  |
+| 99997497 |
 +----------+
 ```
 
