@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  index-current:
+    name: index tables are current
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # regen_index.py validates the frontmatter of every recipe, future
+      # recipe and prompt, checks that each prompt's `recipes:` list refers
+      # to files that exist, and rewrites the generated index tables. If it
+      # changes anything, the tables were committed stale.
+      - name: regenerate indexes
+        run: python3 scripts/regen_index.py
+
+      - name: check nothing changed
+        run: |
+          if ! git diff --exit-code; then
+            echo
+            echo "The index tables are out of date."
+            echo "Run: python3 scripts/regen_index.py, then commit the result."
+            exit 1
+          fi
