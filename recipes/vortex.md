@@ -28,10 +28,9 @@ major as vortex (57 here) so cargo resolves a single copy.
 
 ### System requirement: libclang
 
-Vortex needs `libclang` present at **build** time. `vortex-io` depends on
-`custom-labels`, whose build script runs `bindgen`, which loads
-`libclang.so`. Without it `cargo build` fails before compiling any project
-code:
+Vortex needs `libclang` present at **build** time. `vortex-io` has a
+transitive dependency that requires `libclang.so`. Without it `cargo build`
+fails before compiling any project code:
 
 ```text
 error: failed to run custom build command for `custom-labels v0.4.6`
@@ -48,9 +47,6 @@ dnf install clang-devel           # Fedora
 brew install llvm                 # macOS
 nix-shell -p llvmPackages.libclang # NixOS
 ```
-
-If libclang is installed but not found, set `LIBCLANG_PATH` to the directory
-containing `libclang.so`.
 
 ## Versions
 
