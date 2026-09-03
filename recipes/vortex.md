@@ -26,6 +26,32 @@ Vortex uses `arrow::datatypes::SchemaRef` and `arrow::array::RecordBatch`
 directly, so `arrow` must be a direct dependency — pin it to the same arrow
 major as vortex (57 here) so cargo resolves a single copy.
 
+### System requirement: libclang
+
+Vortex needs `libclang` present at **build** time. `vortex-io` depends on
+`custom-labels`, whose build script runs `bindgen`, which loads
+`libclang.so`. Without it `cargo build` fails before compiling any project
+code:
+
+```text
+error: failed to run custom build command for `custom-labels v0.4.6`
+  panicked at bindgen-0.72.1/lib.rs:616:27:
+  Unable to find libclang: "couldn't find any valid shared libraries matching:
+  ['libclang.so', ...], set the `LIBCLANG_PATH` environment variable"
+```
+
+The error names `bindgen`, not vortex, so it does not point back here.
+
+```shell
+apt install libclang-dev          # Debian / Ubuntu
+dnf install clang-devel           # Fedora
+brew install llvm                 # macOS
+nix-shell -p llvmPackages.libclang # NixOS
+```
+
+If libclang is installed but not found, set `LIBCLANG_PATH` to the directory
+containing `libclang.so`.
+
 ## Versions
 
 Required arrow / DataFusion versions per vortex release (verified
