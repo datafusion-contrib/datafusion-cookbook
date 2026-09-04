@@ -94,10 +94,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 Put any Parquet file in `./data`, then start the server:
 
 ```console
-$ cargo run --release
+$ cargo run
 registered trips
 serving 1 table(s) on 127.0.0.1:50051
 ```
+
+Use the debug profile to verify. A release build of this dependency tree takes
+around 6 minutes versus 3 for debug, and adds nothing to the check — the
+server answers queries identically either way.
 
 From another terminal, query it with the client from
 [flight-sql-client](flight-sql-client.md):
