@@ -84,9 +84,11 @@ file.
 
 ## Notes
 
-- Use `--help` for the other subcommands (`get-catalogs`, `get-tables`,
-  `get-db-schemas`, `prepared-statement-query`).
-- Add `--headers key=value` for auth headers when the server requires them.
+- Metadata subcommands: `catalogs`, `db-schemas`, `tables`, `table-types`,
+  plus `prepared-statement-query`. Note they are not prefixed with `get-`,
+  despite the underlying Flight SQL RPCs being named `GetCatalogs` and so on.
+- Add `-H key=value` (or `--header`, singular, repeatable) for auth headers
+  when the server requires them.
 - Source:
   [flight_sql_client.rs](https://github.com/apache/arrow-rs/blob/main/arrow-flight/src/bin/flight_sql_client.rs)
   is a good reference for writing a client in Rust rather than shelling out.
