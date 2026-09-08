@@ -19,6 +19,7 @@ system on. They also illustrate the types of systems that can be built easily:
 <!-- BEGIN GENERATED: prompt-index -->
 | Prompt | Builds | Uses Recipes |
 |--------|--------|--------------|
+| [duckdb](prompts/duckdb.md) | DuckDB style interactive SQL CLI | base, repl, parquet |
 | [vortex-tpch](prompts/vortex-tpch.md) | TPC-H data generator writing Vortex files | base, cli, tpch, vortex |
 <!-- END GENERATED: prompt-index -->
 

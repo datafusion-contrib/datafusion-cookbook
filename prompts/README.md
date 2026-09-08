@@ -7,6 +7,7 @@ written as you would give them to a coding agent.
 <!-- BEGIN GENERATED: prompt-index -->
 | Prompt | Builds | Uses Recipes |
 |--------|--------|--------------|
+| [duckdb](duckdb.md) | DuckDB style interactive SQL CLI | base, repl, parquet |
 | [vortex-tpch](vortex-tpch.md) | TPC-H data generator writing Vortex files | base, cli, tpch, vortex |
 <!-- END GENERATED: prompt-index -->
 
