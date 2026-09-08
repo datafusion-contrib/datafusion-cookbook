@@ -3,7 +3,7 @@ name: flight-sql-client
 category: wire-transport
 provides: Query a Flight SQL server from the command line
 status: verified
-verified: 2026-09-03
+verified: 2026-09-04
 arrow_major: 59
 crates: arrow-flight@59.2.0
 datafusion: any

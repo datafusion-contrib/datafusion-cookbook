@@ -3,7 +3,7 @@ name: flight-sql-server
 category: wire-transport
 provides: Serve DataFusion over Arrow Flight SQL
 status: verified
-verified: 2026-09-03
+verified: 2026-09-04
 arrow_major: 58
 crates: datafusion@54.1.0, datafusion-flight-sql-server@0.4.18, datafusion-federation@=0.5.5
 datafusion: 54.0.0 - 54.1.0
@@ -128,4 +128,4 @@ NYC taxi file; yours will differ.
 - Clients need not share this project's arrow version — see
   [flight-sql-client](flight-sql-client.md).
 - For the PostgreSQL wire protocol instead, so `psql` connects without an
-  Arrow-aware driver, see the `pgwire` recipe.
+  Arrow-aware driver, the crate is `datafusion-postgres` (no recipe yet).
