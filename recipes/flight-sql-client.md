@@ -3,7 +3,7 @@ name: flight-sql-client
 category: wire-transport
 provides: Query a Flight SQL server from the command line
 status: verified
-verified: 2026-09-04
+verified: 2026-09-28
 arrow_major: 59
 crates: arrow-flight@59.2.0
 datafusion: any
@@ -39,21 +39,8 @@ is a wire protocol: the client is a separate process, so it has its own
 dependency graph. The arrow-major rule in [base](base.md) applies within one
 binary, not across a client/server pair.
 
-This matters here because the two cannot match with current releases:
-
-| side | crate | arrow major |
-|------|-------|------------:|
-| server | `datafusion-flight-sql-server` 0.4.18 | 58 |
-| client | `arrow-flight` `cli` feature | 59 |
-
-`arrow-flight` 58.4.0 has no `cli` feature — it was added in 59.x — so the
-built-in client cannot be compiled against arrow 58 at all. Verified working
-against an arrow 58 server on 2026-09-03.
-
-| arrow-flight | has `cli` binary |
-|-------------:|------------------|
-| 59.x         | yes              |
-| 58.x         | no               |
+Any `arrow-flight` release from 56 on has the `cli`, `flight-sql` and
+`tls-ring` features this install needs; 59.2.0 is the pinned, tested one.
 
 ## Code
 
@@ -66,27 +53,32 @@ $ flight_sql_client --host 127.0.0.1 --port 50051 \
 
 ## Verify
 
-Against a running [flight-sql-server](flight-sql-server.md):
+Start a [flight-sql-server](flight-sql-server.md) serving the cookbook's
+[fixture](../testing/data/README.md), then:
 
 ```console
 $ flight_sql_client --host 127.0.0.1 --port 50051 \
     statement-query "select count(*) as n from trips"
-+---------+
-| n       |
-+---------+
-| 2964624 |
-+---------+
++---+
+| n |
++---+
+| 6 |
++---+
+$ flight_sql_client --host 127.0.0.1 --port 50051 tables datafusion
++--------------+----------------+------------+------------+
+| catalog_name | db_schema_name | table_name | table_type |
++--------------+----------------+------------+------------+
+| datafusion   | public         | trips      | Base       |
++--------------+----------------+------------+------------+
 ```
 
-Expected: an aligned table with the correct row count. Timestamps, decimals
-and aggregates all round-trip; verified against a 2.9M-row NYC taxi Parquet
-file.
+Expected: exactly the tables above.
 
 ## Notes
 
-- Metadata subcommands: `catalogs`, `db-schemas`, `tables`, `table-types`,
-  plus `prepared-statement-query`. Note they are not prefixed with `get-`,
-  despite the underlying Flight SQL RPCs being named `GetCatalogs` and so on.
+- Metadata subcommands: `catalogs`, `db-schemas`, `tables <CATALOG>`,
+  `table-types`, plus `prepared-statement-query`. Note they are not prefixed
+  with `get-`, despite the underlying Flight SQL RPCs being named `GetCatalogs` and so on.
 - Add `-H key=value` (or `--header`, singular, repeatable) for auth headers
   when the server requires them.
 - Source:
