@@ -19,6 +19,7 @@ system on. They also illustrate the types of systems that can be built easily:
 <!-- BEGIN GENERATED: prompt-index -->
 | Prompt | Builds | Uses Recipes |
 |--------|--------|--------------|
+| [flightsql-server](prompts/flightsql-server.md) | Flight SQL server exposing a directory of Parquet files, queried from the command line | base, cli, flight-sql-server, flight-sql-client |
 | [vortex-tpch](prompts/vortex-tpch.md) | TPC-H data generator writing Vortex files | base, cli, tpch, vortex |
 <!-- END GENERATED: prompt-index -->
 
@@ -35,6 +36,8 @@ ingredients from the menu below.
 | [cli](recipes/cli.md) | REPL / CLI | Command line argument parsing with clap | ✅ |
 | [vortex](recipes/vortex.md) | File Formats | Read and write Vortex files | ✅ |
 | [tpch](recipes/tpch.md) | Data Generation | Generate TPC-H benchmark datasets | ✅ |
+| [flight-sql-client](recipes/flight-sql-client.md) | Wire Transport | Query a Flight SQL server from the command line | ✅ |
+| [flight-sql-server](recipes/flight-sql-server.md) | Wire Transport | Serve DataFusion over Arrow Flight SQL | ✅ |
 <!-- END GENERATED: recipe-index -->
 
 ## Future recipes

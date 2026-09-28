@@ -7,6 +7,7 @@ written as you would give them to a coding agent.
 <!-- BEGIN GENERATED: prompt-index -->
 | Prompt | Builds | Uses Recipes |
 |--------|--------|--------------|
+| [flightsql-server](flightsql-server.md) | Flight SQL server exposing a directory of Parquet files, queried from the command line | base, cli, flight-sql-server, flight-sql-client |
 | [vortex-tpch](vortex-tpch.md) | TPC-H data generator writing Vortex files | base, cli, tpch, vortex |
 <!-- END GENERATED: prompt-index -->
 
