@@ -123,5 +123,3 @@ Expected: exactly the tables above. See
   HTTP/1.1 the connection fails in a way that reads like an auth error.
 - Clients need not share this project's arrow version — see
   [flight-sql-client](flight-sql-client.md).
-- For the PostgreSQL wire protocol instead, so `psql` connects without an
-  Arrow-aware driver, the crate is `datafusion-postgres` (no recipe yet).
