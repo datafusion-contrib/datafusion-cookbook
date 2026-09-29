@@ -58,15 +58,15 @@ Client:
 1. Register every `.parquet` file in a directory as a table named after the
    file stem
 2. Serve those tables over Arrow Flight SQL on a configurable host and port
-3. Answer SQL with filters, aggregates and `GROUP BY`
+3. Answer SQL queries
 4. Report the registered tables and the listen address on startup
 5. Exit with a clear error when the directory holds no Parquet files
 
 ## Additional potential options
 
-1. Serve a Flight SQL client as a second binary in the same project, instead
-   of using the prebuilt one
+1. Build a Flight SQL client binary in the same project instead of using the
+   prebuilt one
 2. Add authentication headers and TLS
-3. Support `get-tables` / `get-db-schemas` metadata calls from the client
+3. Support the `tables` / `db-schemas` metadata calls from the client
 4. Watch the directory and register files added while running
 5. Serve other formats (CSV, NDJSON) alongside Parquet
